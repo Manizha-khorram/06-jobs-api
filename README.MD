@@ -50,10 +50,10 @@ Email Validation Regex
 
 #### Security
 
-- helmet
-- cors
-- xss-clean
-- express-rate-limit
+- helmet = with the help of helmet we can protect our API, the most populer security packages, set different HTTP Headers to prevent numioruse attacks
+- cors = Cross Origin request sharing -> by installing this package we make our API accessible to th public
+- xss-clean = sanatize the user input at req.body , req.query , req.param
+- express-rate-limit = limit the amount of request that user can do
 
 Swagger UI
 
