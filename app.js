@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('express-async-errors');
 
+//const adminUser = require ('./middleware/admin-user')
 //exra security packages
 const helmet = require('express')
 const cors = require ('cors')
@@ -12,7 +13,9 @@ const app = express();
 
 const authRouter = require ('./routes/auth')
 const ArtCollectiblesRouter = require ('./routes/ArtCollectibles')
-
+const adminUserRouter = require ('./routes/admin-user')
+const customerUserCartRouter = require ('./routes/customer-user-cart')
+const customerUserOrderRouter = require ('./routes/customer-user-order')
 
 app.use(express.json());
 // extra packages
@@ -27,20 +30,31 @@ app.use(cors())
 app.use(xss())
 
 
-
-
 //connectDb
 
 const connectDB = require('./db/connect')
 const authenticateUser = require('./middleware/authentication')
 
+//
+
+app.use(express.static('public'))
+
+
 //routes
 app.use('/api/v1/auth' , authRouter)       //full path of api/v1
-app.use('/api/v1/ArtCollectibles' ,authenticateUser , ArtCollectiblesRouter) // we put out authenticateUser before our routes so all our routes would be protected.
+app.use('/api/v1/ArtCollectibles',authenticateUser , ArtCollectiblesRouter) // we put out authenticateUser before our routes so all our routes would be protected.
+
+//adminUser
+app.use('/api/v1/Admin' ,authenticateUser ,adminUserRouter)
+
+//customerUser
+app.use('/api/v1/carts',authenticateUser , customerUserCartRouter )
+app.use('/api/v1/orders',authenticateUser , customerUserOrderRouter )
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+const getAllUsers = require('./controllers/Admin');
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

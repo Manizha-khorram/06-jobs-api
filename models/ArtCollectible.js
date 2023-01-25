@@ -6,9 +6,10 @@ const ArtCollectibleSchema = new mongoose.Schema({
     //options which should be considered when creating a ArtCollectible
     paintingType :{
         type : String ,
-        required : [ true , 'Please provide painting type'],
+        //required : [ true , 'Please provide painting type'],
         enum : ['Oil' , 'WaterColor' , 'Acrylic' , 'Ink' , 'Mixed' ,'Gouache','Combination'],
-        maxlength : 50 
+        maxlength : 50 ,
+        default : 'WaterColor'
     },
 
     createdBy : {
@@ -39,8 +40,7 @@ const ArtCollectibleSchema = new mongoose.Schema({
         required: true
       },
       freeShipping: {
-        type: Boolean,
-        default: false,
+        type: String,
       },
       inventory: {
         type: Number,

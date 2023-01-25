@@ -25,7 +25,7 @@ const register = async (req , res)=>{
 }
 
 const login = async (req, res) => {
-   const {email , password} = req.body //1.first in the reqest we are looking for email and password 
+   const {email , password } = req.body //1.first in the reqest we are looking for email and password 
    if (!email || !password) {   //2.check if it is not provided throw an error
     throw new BadRequestError('Please provide email and password')
    }
@@ -40,7 +40,7 @@ if(!isPasswordCorrect){
     throw new UnauthenticatedError('Invalid Credentials')
 }
 const token = user.createJWT()              //5.if the user exist we send back the token and name!
-res.status(StatusCodes.OK).json({user : { name : user.name} , token})
+res.status(StatusCodes.OK).json({user : { name : user.name , role : user.role} , token})
 }
 module.exports = {
     register,

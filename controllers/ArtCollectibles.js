@@ -24,7 +24,7 @@ const getArtCollectible = async (req, res) => {
        _id:artCollectibleId , createdBy : userId
     })
     if(!artCollectible){
-        throw new NotFoundError(`No job available with this id ${artCollectibleId}`)
+        throw new NotFoundError(`No artCollectible available with this id ${artCollectibleId}`)
     }
     res.status(StatusCodes.OK).json({artCollectible})
 }
@@ -54,7 +54,7 @@ const updateArtCollectible = async (req, res) => {
         {new : true , runValidators:true}
          )
          if(!artCollectibleId){
-            throw new NotFoundError(`No job available with this id ${artCollectibleId}`)
+            throw new NotFoundError(`No artCollectible available with this id ${artCollectibleId}`)
         }
         res.status(StatusCodes.OK).json({artCollectible})
 }
@@ -70,7 +70,7 @@ const deleteArtCollectible = async (req, res) => {
         createdBy : userId
       })
       if(!artCollectibleId){
-        throw new NotFoundError(`No job available with this id ${artCollectibleId}`)
+        throw new NotFoundError(`No artCollectible available with this id ${artCollectibleId}`)
     }
     res.status(StatusCodes.OK).json({artCollectible})
 

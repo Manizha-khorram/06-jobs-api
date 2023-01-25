@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtCollectibles List</title>
+</head>
+
+<body>
+    <h1>ArtCollectibles List</h1>
+    <button type="button" id="logoff" style="display:none;">logoff</button>
+    <hr>
+    <p id="message"></p>
+    <hr>
+    <div id="logon-register" style="display:none;">
+        <button type="button" id="logon">logon</button>
+        <button type="button" id="register">register</button>
+    </div>
+    <div id="logon-div" style="display:none;">
+        <form>
+            <div>
+                <label for="email">email:</label>
+                <input type="email" id="email">
+            </div>
+            <div>
+                <label for="password">password:</label>
+                <input type="password" id="password">
+            </div>
+            <button type="button" id="logon-button">logon</button>
+            <button type="button" id="logon-cancel">cancel</button>
+        </form>
+    </div>
+    <div id="register-div" style="display:none;">
+        <form>
+            <div>
+                <label for="name">name:</label>
+                <input type="text" id="name">
+            </div>
+            <div>
+                <label for="email1">email:</label>
+                <input type="email" id="email1">
+            </div>
+            <div>
+                <label for="password1">password:</label>
+                <input type="password" id="password1">
+            </div>
+            <div>
+                <label for="password2">verify password:</label>
+                <input type="password" id="password2">
+            </div>
+            <div>
+                <label for="role">role:</label>
+                <select id="role">
+                    <option value="admin">Admin</option>
+                    <option value="artist">Artist</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+            <button type="button" id="register-button">register</button>
+            <button type="button" id="register-cancel">cancel</button>
+        </form>
+    </div>
+    <div id="ArtCollectibles" style="display:none;">
+        <p id="ArtCollectibles-message"></p>
+        <table id="ArtCollectibles-table" style="display:none;">
+            <tr id="ArtCollectibles-table-header">
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Painting type</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>Free shipping</th>
+                <th>Inventory</th>
+                <th colspan="2"></th>
+            </tr>
+        </table>
+        <button type="button" id="add-ArtCollectible">add ArtCollectible</button>
+    </div>
+    <div id="edit-ArtCollectible" style="display:none;">
+        <form>
+           
+            <div>
+                <label for="title">title:</label>
+                <input type="text" id="title">
+            </div>
+            <div>
+               <!-- <select name="name" class="form-control" v-model="field">
+                    <option v-for="option in param.options" :value="option.value">{{$t(option.option)}}</option>
+                </select> -->
+              <!-- <label for="painting type ">painting type:</label>
+                <select name="name" class="form-control" v-model="field">
+                    <option v-for="Oil in paintingType" :value="Oil">{{$t(Oil)}}}</option>
+                    <option v-for="WaterColor in paintingType"  v-bind:value="WaterColor">{{$t(WaterColor)}}}</option>
+                </select> --> 
+                <label for="painting type ">painting type:</label>
+                <select id="painting-type">
+                    <option value="Oil">Oil</option>
+                    <option value="WaterColor">WaterColor</option>
+                    <option value="Acrylic">Acrylic</option>
+                    <option value="Mixed">Mixed</option>
+                    <option value="Gouache">Gouache</option>
+                    <option value="Combination">Combination</option>
+                </select>
+            </div>
+            <div>
+                <label for="price">price:</label>
+                <input type="text" id="price">
+            </div>
+            <div>
+                <label for="description">description:</label>
+                <input type="text" id="description">
+            </div>
+            <div>
+                <label for="free shipping">free shipping:</label>
+                <select id="free-shipping">
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+            <div>
+                <label for="inventory">inventory:</label>
+                <input type="text" id="inventory">
+            </div>
+            <button type="button" id="adding-ArtCollectible">add</button>
+            <button type="button" id="edit-cancel">cancel</button>
+        </form>
+    </div>
+    <script src="./ArtCollectibles.js"></script>
+</body>
+</html>

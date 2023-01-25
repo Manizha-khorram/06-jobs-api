@@ -1,26 +1,31 @@
 
-const { number } = require('joi');
+
 const mongoose = require('mongoose');
 
 const CartSchema = mongoose.Schema(
     {
-      userID: {
-        type: Number,
-        required: true,
+      owner : {
+        type: mongoose.Types.ObjectId,
+         required: true,
+         ref: 'User'
+       },
+       artCollectibles: [{
+        artCollectibleId: {
+         type: mongoose.Types.ObjectId,
+         ref: 'ArtCollectible',
+         required: true
       },
-     products:[
-       {
-        productId :{
-            type: String,
-          },
-        quantity: {
-          type: Number, 
-          default :1,
-        }    
-     },
-    ],
-   },
-    { timestamps: true }
-  );
+      title : String,
+      quantity: {
+         type: Number,
+         required: true,
+         min: 1,
+         default: 1},
+         price: String
+       }],
+      
+      }, {
+      timestamps: true
+      })
   
-  module.exports = mongoose.model('Order', OrderSchema);
+  module.exports = mongoose.model('Cart', CartSchema);

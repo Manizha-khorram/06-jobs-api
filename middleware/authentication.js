@@ -5,6 +5,7 @@ const {UnauthenticatedError} = require('../errors')
 
 const auth = (req , res , next)=> {
     //check header
+    //console.log("Headers equal :",req.headers)
     const authHeader = req.headers.authorization
     if ( !authHeader || !authHeader.startsWith('Bearer')){
         throw new UnauthenticatedError('Authentication Inavalid')
@@ -14,9 +15,9 @@ const auth = (req , res , next)=> {
     try{
         const payload = jwt.verify(token , process.env.JWT_SECRET)
         //attach the user to the ArtCollectible routes
-        req.user = {userId : payload.userId , name: payload.name} //we send this info to the user
-      
-    //   const user = User.findById(payload.id).select('-password')   //select('-password') : remove password
+        req.user = {userId : payload.userId , name: payload.name , role : payload.role} //we send this info to the user
+        console.log(req.user.role)
+        //   const user = User.findById(payload.id).select('-password')   //select('-password') : remove password
     //   req.user = user
         next();
     }

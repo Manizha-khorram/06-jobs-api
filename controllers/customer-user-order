@@ -1,0 +1,55 @@
+const User = require ('../models/User')
+const ArtCollectible = require("../models/ArtCollectible")
+const {StatusCodes} = require ('http-status-codes')
+const {BadRequestError , NotFoundError} = require('../errors')
+const { JsonWebTokenError } = require("jsonwebtoken")
+const Cart = require("../models/Cart")
+const Order = require("../models/Order")
+
+
+//Get order
+
+
+
+
+
+
+//Create order
+const createOrder = async (req , res ) =>{
+
+    const {role} = req.user
+    const owner = req.user.userId
+    
+    const cart = await Cart.findOne({ owner })
+    
+    if(!cart){
+        throw new NotFoundError(`Cart doesn't exist.`)
+       
+    }
+
+    else {
+         
+        const order = await Order.create({
+            owner,
+            artCollectibles: cart.artCollectibles,
+        })
+            
+            res.status(StatusCodes.CREATED).json({order})
+    }
+
+
+
+
+
+}
+
+
+
+
+
+//delete order
+
+
+
+
+module.exports = {createOrder}
