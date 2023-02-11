@@ -4,18 +4,7 @@ const {StatusCodes} = require ('http-status-codes')
 const {BadRequestError , NotFoundError} = require('../errors')
 const { JsonWebTokenError } = require("jsonwebtoken")
 
-const getAllArtCollectibles = async (req , res) =>{
-    
-  
-    const {role} = req.user
-    const artCollectibles = await ArtCollectible.find()
-    
-    if(role !== "admin"){
-      throw new NotFoundError(`You dont have the ability to access all artCollectibles`)
-    }
-    res.status(StatusCodes.OK).json({ artCollectibles , count : artCollectibles.length })
-    
-    }
+
 
   const getAllUsers = async (req, res) => {
 
@@ -65,6 +54,6 @@ const getAllArtCollectibles = async (req , res) =>{
 
 
 
-    module.exports = {getAllUsers , deleteUser , getAllArtCollectibles} ;
+    module.exports = {getAllUsers , deleteUser } ;
 
    

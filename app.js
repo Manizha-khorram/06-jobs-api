@@ -16,6 +16,7 @@ const ArtCollectiblesRouter = require ('./routes/ArtCollectibles')
 const adminUserRouter = require ('./routes/admin-user')
 const customerUserCartRouter = require ('./routes/customer-user-cart')
 const customerUserOrderRouter = require ('./routes/customer-user-order')
+const allArtCollectibles = require('./routes/allArtCollectibles')
 
 app.use(express.json());
 // extra packages
@@ -33,6 +34,7 @@ app.use(xss())
 //connectDb
 
 const connectDB = require('./db/connect')
+app.use('/api/v1/allArts' , allArtCollectibles)
 const authenticateUser = require('./middleware/authentication')
 
 //

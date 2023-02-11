@@ -22,7 +22,7 @@ const OrderSchema = mongoose.Schema(
         },
      },
     ],
-    amount :[{
+    amount :{
       totalAmount :{
         type : Number ,
         require : true,
@@ -32,14 +32,14 @@ const OrderSchema = mongoose.Schema(
         require : true,
       },
       subtotal:{
-        type : Number ,
+        type : Number,
         require : true,
       }
     },
-    ],
+    
     address :{
       type : String ,
-      //required : true,  
+      required : true,  
     },
     status :{
       type : String,

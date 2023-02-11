@@ -30,6 +30,10 @@ const getArtCollectible = async (req, res) => {
 }
 
 const creatArtCollectible= async (req, res) => {
+    const {role} = req.user
+    if(role !== "artist"){
+        throw new BadRequestError(' Make sure you are an artist!!')
+    }
     req.body.createdBy = req.user.userId  //2. push the userId to the createdBy Id
     req.body.artist = req.user.name ;
     const artCollectible = await ArtCollectible.create(req.body)  // 1.creating the artCollectible and push it into req.body
@@ -37,6 +41,10 @@ const creatArtCollectible= async (req, res) => {
 }
 
 const updateArtCollectible = async (req, res) => {
+    const {role} = req.user
+    if(role !== "artist"){
+        throw new BadRequestError(' Make sure you are an artist!!')
+    }
     const {
         body :{title , price},
         user:{userId} ,
@@ -60,6 +68,10 @@ const updateArtCollectible = async (req, res) => {
 }
 
 const deleteArtCollectible = async (req, res) => {
+    const {role} = req.user
+    if(role !== "artist"){
+        throw new BadRequestError(' Make sure you are an artist!!')
+    }
       const {
         user : {userId},  //located in the request which come from auth middleware.
         params: {id:artCollectibleId} // comming from params

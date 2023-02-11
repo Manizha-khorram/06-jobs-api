@@ -27,16 +27,17 @@ const createCart = async (req , res ) =>{
     const {role} = req.user
     //const {userId } = req.user
     const { artCollectibleId, quantity } = req.body;
-   
+     console.log(artCollectibleId)
     const owner = req.user.userId
     //we check if the cart or product already exist!
     const cart = await Cart.findOne({ owner })
     console.log(cart)
-    const artCollectible = await ArtCollectible.findById({
-        _id:artCollectibleId
-     })
+    const artCollectible = await ArtCollectible.findById(
+       artCollectibleId
+     )
    console.log(" here it is :", artCollectible)
-
+   
+   const artist = artCollectible.artist
    const title = artCollectible.title;
    const price = artCollectible.price
 
@@ -56,7 +57,7 @@ const createCart = async (req , res ) =>{
         //res.status(200).json({cart})
     } else {
         //here we push the artCollectible to cart
-        cart.artCollectibles.push({artCollectibleId, quantity , title , price})
+        cart.artCollectibles.push({artCollectibleId, quantity , title , price , artist})
         console.log(" our cart here :",cart.artCollectibles)
     }
     if (role !== "user"){
@@ -68,7 +69,8 @@ const createCart = async (req , res ) =>{
    
     const newCart = await Cart.create({
         owner,
-        artCollectibles : [artCollectibleId, quantity],
+        artCollectibles : [artCollectibleId, quantity ],
+        artist,
         price
     })
 

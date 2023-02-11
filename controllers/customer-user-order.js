@@ -19,19 +19,52 @@ const createOrder = async (req , res ) =>{
 
     const {role} = req.user
     const owner = req.user.userId
+    const address = req.body.address
+    const artCollectibles = Cart.artCollectibles
+  
+    const cart = await Cart.findOne({ owner})
+
+    const cartArtc = cart.artCollectibles ;
     
-    const cart = await Cart.findOne({ owner })
+
+    console.log(cartArtc)
+
+     //change the string to number 
+    const Nprice = cartArtc.map((product) => { return parseFloat(product.price) * (product.quantity)
     
+    
+    })
+
+    //const quantity = cartArtc.quantity
+    //const price = cartArtc.price
+
+    //sum of all price values:
+    const totalAmount = Nprice.reduce(function(total , arr) {
+    
+           
+        return total + arr   //?? quantity
+    }, 0)
+    
+   
+
+    const shopDiscount = totalAmount * 10 /100
+    const subtotal = totalAmount - shopDiscount
+    
+    const amount = {totalAmount , shopDiscount , subtotal}
+    
+    console.log(amount);
     if(!cart){
         throw new NotFoundError(`Cart doesn't exist.`)
        
     }
-
+//
     else {
          
         const order = await Order.create({
             owner,
             artCollectibles: cart.artCollectibles,
+            address,
+            amount
         })
             
             res.status(StatusCodes.CREATED).json({order})

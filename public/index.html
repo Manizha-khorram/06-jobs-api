@@ -5,19 +5,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./ArtCollectibles.css">
     <title>ArtCollectibles List</title>
 </head>
 
 <body>
+    <div id="container">
     <h1>ArtCollectibles List</h1>
     <button type="button" id="logoff" style="display:none;">logoff</button>
-    <hr>
+    
     <p id="message"></p>
-    <hr>
+
     <div id="logon-register" style="display:none;">
         <button type="button" id="logon">logon</button>
         <button type="button" id="register">register</button>
     </div>
+</div>
     <div id="logon-div" style="display:none;">
         <form>
             <div>
@@ -53,15 +56,16 @@
             <div>
                 <label for="role">role:</label>
                 <select id="role">
-                    <option value="admin">Admin</option>
-                    <option value="artist">Artist</option>
-                    <option value="user">User</option>
+                    <option value="admin">admin</option>
+                    <option value="artist">artist</option>
+                    <option value="user">user</option>
                 </select>
             </div>
             <button type="button" id="register-button">register</button>
             <button type="button" id="register-cancel">cancel</button>
         </form>
-    </div>
+        </div>
+    
     <div id="ArtCollectibles" style="display:none;">
         <p id="ArtCollectibles-message"></p>
         <table id="ArtCollectibles-table" style="display:none;">
@@ -79,13 +83,13 @@
         <button type="button" id="add-ArtCollectible">add ArtCollectible</button>
     </div>
     <div id="edit-ArtCollectible" style="display:none;">
-        <form>
+        <form id="edit-form">
            
             <div>
                 <label for="title">title:</label>
                 <input type="text" id="title">
             </div>
-            <div>
+            <div >
                <!-- <select name="name" class="form-control" v-model="field">
                     <option v-for="option in param.options" :value="option.value">{{$t(option.option)}}</option>
                 </select> -->
@@ -128,5 +132,6 @@
         </form>
     </div>
     <script src="./ArtCollectibles.js"></script>
+
 </body>
 </html>

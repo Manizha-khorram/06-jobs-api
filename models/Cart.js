@@ -21,7 +21,8 @@ const CartSchema = mongoose.Schema(
          required: true,
          min: 1,
          default: 1},
-         price: String
+         price: String,
+         artist : String
        }],
       
       }, {
