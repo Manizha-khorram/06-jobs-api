@@ -138,8 +138,24 @@ document.addEventListener("DOMContentLoaded", () => {
      ArtCollectibles.style.display = "block";
      ArtCollectibles.style.margin = "-71px 30px 100px 20px";
       showing = ArtCollectibles; 
-      addArtCollectible.style.display = "none"
-     return 
+      addArtCollectible.style.display = "none";
+      //Carts
+     if (e.target.classList.contains("Cart")){
+       
+      try {
+        const response = await fetch("/api/v1/carts", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        let data = await response.json();
+      
+      }catch(err){
+        message.textContent = "A communications error occurred.";
+      }
+    }
+
   });
 
  
@@ -228,6 +244,8 @@ document.addEventListener("DOMContentLoaded", () => {
       password1.value = "";
       password2.value = "";
       role.value = "";
+      thisEvent = new Event("load");
+      document.dispatchEvent(thisEvent);
     } else if (e.target === logonButton) {
       suspendInput = true;
       try {
