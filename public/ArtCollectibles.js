@@ -1,3 +1,38 @@
+
+const putImage = (tdElement,imageURL , token) => {
+  const src = imageURL
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "image/*"
+    }
+  };
+  //console.log('SRC', src)
+  //console.log('options', options)
+  fetch(src, options)
+  .then(res => res.blob())
+  .then(blob => {
+   let imageSrc = URL.createObjectURL(blob);
+  // console.log('imageSrc', imageSrc)
+   console.log('blobnum1', blob)
+   if (imageSrc) {
+      const image = document.createElement("img")
+      image.onload= function(){
+        URL.revokeObjectURL(this.src)
+        image.height= 70
+      image.width= 70
+        tdElement.replaceChildren(image)
+      }
+        
+     
+      image.src = imageSrc
+     // console.log('imageSRC',imageSrc)
+      
+  }else{
+    console.log('no image')
+  }
+  });
+}
 async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTableHeader, token, message) {
     try {
       const response = await fetch("/api/v1/ArtCollectibles", {
@@ -8,22 +43,32 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
         },
       });
       const data = await response.json();
-      console.log('dataaaaaa', data)
+      //console.log('dataaaaaa', data)
       var children = [ArtCollectiblesTableHeader];
       if (response.status === 200) {
         if (data.count === 0) {
           ArtCollectiblesTable.replaceChildren(...children); // clear this for safety
           return 0;
         } else {
+
           for (let i = 0; i < data.ArtCollectibles.length; i++) {
-            let editButton = `<td><button type="button" class="editButton" data-id=${data.ArtCollectibles[i]._id}>edit</button></td>`;
+            let editButton = `<td><button type="button" class="editButton" data-id=${data.ArtCollectibles[i]._id} >edit</button></td>`;
             let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.ArtCollectibles[i]._id}>delete</button></td>`;
-            let rowHTML = `<td>${data.ArtCollectibles[i].artist}</td><td>${data.ArtCollectibles[i].title}</td><td>${data.ArtCollectibles[i].paintingType}</td><td>${data.ArtCollectibles[i].price}</td><td>${data.ArtCollectibles[i].description}</td><td>${data.ArtCollectibles[i].freeShipping}</td><td>${data.ArtCollectibles[i].inventory}</td>${editButton}${deleteButton}`;
+            let rowHTML = `<td id="${'image'+i.toString()}">no image</td><td>${data.ArtCollectibles[i].artist}</td><td>${data.ArtCollectibles[i].title}</td><td>${data.ArtCollectibles[i].paintingType}</td><td>${data.ArtCollectibles[i].price}</td><td>${data.ArtCollectibles[i].description}</td><td>${data.ArtCollectibles[i].freeShipping}</td><td>${data.ArtCollectibles[i].inventory}</td>${editButton}${deleteButton}`;
             let rowEntry = document.createElement("tr");
-            rowEntry.innerHTML = rowHTML; 
+            rowEntry.innerHTML = rowHTML;
             children.push(rowEntry);
+            
           }
           ArtCollectiblesTable.replaceChildren(...children);
+          for (let i = 0; i < data.ArtCollectibles.length; i++) {
+          if (data.ArtCollectibles[i].imageURL) {
+           // console.log('rowHTML' , rowHTML)
+            //console.log('imageString','image'+i.toString() )
+              const imgTableData = document.getElementById('image'+i.toString())
+             // console.log('imageTableData',imgTableData)
+              putImage(imgTableData,data.ArtCollectibles[i].imageURL,token)
+      }}
         }
         return data.count;
       } else {
@@ -32,11 +77,13 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
       }
     } catch (err) {
       message.textContent = "A communication error occurred.";
+      console.log(err)
       return 0;
     }
   }
 
-  //here
+  
+
   async function buildAllArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTableHeader, message) {
     
     try {
@@ -57,9 +104,13 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
           return 0;
         } else {
           for (let i = 0; i < data.ArtCollectibles.length; i++) {
-            let cartButton = `<td><button type="button" class="Cart" data-id=${data.ArtCollectibles[i]._id}>Add to Cart</button></td>`;
-            let orderButton = `<td><button type="button" class="order" data-id=${data.ArtCollectibles[i]._id}>Process Order</button></td>`;
-            let rowHTML = `<td>${data.ArtCollectibles[i].artist}</td><td>${data.ArtCollectibles[i].title}</td><td>${data.ArtCollectibles[i].paintingType}</td><td>${data.ArtCollectibles[i].price}</td><td>${data.ArtCollectibles[i].description}</td><td>${data.ArtCollectibles[i].freeShipping}</td><td>${data.ArtCollectibles[i].inventory}</td>${cartButton}${orderButton}`;
+            let image = "no image";
+            if(data.ArtCollectibles[i].imageURL){
+              image = `<img src=\"${data.ArtCollectibles[i].imageURL }" hight="70" width="70">`
+            }
+            let cartButton = `<td><button type="button" class="Cart"  data-id=${data.ArtCollectibles[i]._id}>Add to Cart</button></td>`;
+           // let orderButton = `<td><button type="button" class="order" data-id=${data.ArtCollectibles[i]._id}>Process Order</button></td>`;
+            let rowHTML = `<td>${image}</td><td>${data.ArtCollectibles[i].artist}</td><td>${data.ArtCollectibles[i].title}</td><td>${data.ArtCollectibles[i].paintingType}</td><td>${data.ArtCollectibles[i].price}</td><td>${data.ArtCollectibles[i].description}</td><td>${data.ArtCollectibles[i].freeShipping}</td><td>${data.ArtCollectibles[i].inventory}</td>${cartButton}`;
             let rowEntry = document.createElement("tr");
             rowEntry.innerHTML = rowHTML; 
             children.push(rowEntry);
@@ -72,9 +123,52 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
         return 0;
       }
     } catch (err) {
+      console.log('error on 79', err)
       message.textContent = "A communication error occurred.";
       return 0;
     }
+    }
+
+    async function buildAdminTable(AdminTable, AdminTableHeader, token, message) {
+      try {
+        const response = await fetch("/api/v1/admin/users", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+        console.log('dataaaaaa', data)
+        var children = [AdminTableHeader];
+        if (response.status === 200) {
+          if (data.count === 0) {
+            Admin.replaceChildren(...children); // clear this for safety
+            return 0;
+          } else {
+  
+            for (let i = 0; i < data.users.length; i++) {
+              //let editButton = `<td><button type="button" class="editButton" data-id=${data.ArtCollectibles[i]._id} >edit</button></td>`;
+              let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.users[i]._id}>delete</button></td>`;
+              let rowHTML = `<td>${data.users[i].name}</td><td>${data.users[i].email}</td><td>${data.users[i].role}</td>${deleteButton}`;
+              let rowEntry = document.createElement("tr");
+              rowEntry.innerHTML = rowHTML;
+              children.push(rowEntry);
+              
+            }
+            AdminTable.replaceChildren(...children);
+        
+          }
+          return data.count;
+        } else {
+          message.textContent = data.msg;
+          return 0;
+        }
+      } catch (err) {
+        message.textContent = "A communication error occurred.";
+        console.log(err)
+        return 0;
+      }
     }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -93,7 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const email1 = document.getElementById("email1");
     const password1 = document.getElementById("password1");
     const password2 = document.getElementById("password2");
-    const role = document.getElementById("role")
+    const roleEntry = document.getElementById("role");
+    const role = roleEntry.value;
+    const adminButton = document.getElementById('Admin-button')
     const registerButton = document.getElementById("register-button");
     const registerCancel = document.getElementById("register-cancel");
     const ArtCollectibles = document.getElementById("ArtCollectibles");
@@ -102,6 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const addArtCollectible = document.getElementById("add-ArtCollectible");
     const editArtCollectible = document.getElementById("edit-ArtCollectible");
     const title = document.getElementById("title");
+    const image = document.getElementById("image");
     const paintingType = document.getElementById("painting-type");
     const price = document.getElementById("price");
     const description = document.getElementById("description");
@@ -109,7 +206,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const inventory= document.getElementById("inventory");
     const addingArtCollectible = document.getElementById("adding-ArtCollectible");
     const ArtCollectiblesMessage = document.getElementById("ArtCollectibles-message");
-    const editCancel = document.getElementById("edit-cancel");
+    const editCancel = document.getElementById("edit-cancel")
+    const editForm = document.getElementById("edit-form")
+    const editImage = document.getElementById("image-edit")
+    const adminDiv = document.getElementById("Admin-div");
+    const AdminTable = document.getElementById("Admin-table")
+    const AdminTableHeader =document.getElementById('Admin-table-header')
+    const adminMessage = document.getElementById("Admin-message")
+    const ArtCtitle = document.getElementById("ArtCollectible-table-title")
+    const AdminTabletitle = document.getElementById("Admin-table-title")
+  
   
     // section 2 
 
@@ -139,22 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
      ArtCollectibles.style.margin = "-71px 30px 100px 20px";
       showing = ArtCollectibles; 
       addArtCollectible.style.display = "none";
-      //Carts
-     if (e.target.classList.contains("Cart")){
-       
-      try {
-        const response = await fetch("/api/v1/carts", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        let data = await response.json();
-      
-      }catch(err){
-        message.textContent = "A communications error occurred.";
-      }
-    }
+     
 
   });
 
@@ -202,6 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // section 3
   document.addEventListener("click", async (e) => {
+
     if (suspendInput) {
       if(e.target===logon){
            logonRegister.style.display = "none" ;  
@@ -225,11 +317,11 @@ document.addEventListener("DOMContentLoaded", () => {
       document.dispatchEvent(thisEvent);
 
     } else if (e.target === logon) {
-      console.log('at line 197')
+      //console.log('at line 197')
       showing.style.display = "none";
       logonDiv.style.display = "block";
       showing = logonDiv;
-    } else if (e.target === register) {    // why we didnt check register before logon??!
+    } else if (e.target === register) {   
       showing.style.display = "none";
       registerDiv.style.display = "block";
       showing = registerDiv;
@@ -316,11 +408,14 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } 
     // section 4
+    //console.log('line 364');
     else if (e.target === addArtCollectible) {
+    //  console.log('line 366')
         showing.style.display = "none";
         editArtCollectible.style.display = "block";
         showing = editArtCollectible;
-        delete editArtCollectible.dataset.id;   ///???
+        delete editArtCollectible.dataset.id; 
+        image.value = "";  
         title.value = "";
         paintingType.value="Oil";
         price.value = "";
@@ -330,6 +425,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addingArtCollectible.textContent = "add";
       } else if (e.target === editCancel) {
         showing.style.display = "none";
+        image.value = "";
         title.value = "";
         paintingType.value ="Oil";
         price.value = "";
@@ -341,31 +437,28 @@ document.addEventListener("DOMContentLoaded", () => {
       } else if (e.target === addingArtCollectible) {
   
         if (!editArtCollectible.dataset.id) {     // If editJob.dataset.id is not set, then this is an add. If it is set, it holds the value of the entry being edited.
-          // this is an attempted add 
+          // this is an add attempt
           suspendInput = true;
           try {
             const response = await fetch("/api/v1/ArtCollectibles", {
               method: "POST",
               headers: {
-                "Content-Type": "application/json",
+                //"Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
               },
-              body: JSON.stringify({
-                title:  title.value,
-                paintingType : paintingType.value,
-                price :price.value,
-                description : description.value,
-                freeShipping:  freeShipping.value, 
-                inventory: inventory.value,
-              }),
+
+              body: new FormData(editForm)  //insted of putting each form input separetly we put it like this!
             });
+            //console.log(response)
             const data = await response.json();
+            console.log(data)
             if (response.status === 201) {
               //successful create
               message.textContent = "The ArtCollectible entry was created.";
               showing.style.display = "none";
               thisEvent = new Event("startDisplay");
               document.dispatchEvent(thisEvent);
+              image.value = "";
               title.value = "";
               paintingType.value ="Oil";
               price.value = "";
@@ -375,8 +468,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
               // failure
               message.textContent = data.msg;
+              console.log(data.message)
             }
           } catch (err) {
+            console.log(err)
             message.textContent = "A communication error occurred.";
           }
           suspendInput = false;
@@ -385,25 +480,24 @@ document.addEventListener("DOMContentLoaded", () => {
           suspendInput = true;
           try {
             const ArtCollectibleID = editArtCollectible.dataset.id;
+
             const response = await fetch(`/api/v1/ArtCollectibles/${ArtCollectibleID}`, {
               method: "PATCH",
               headers: {
-                "Content-Type": "application/json",
+               // "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
               },
-              body: JSON.stringify({
-                title:  title.value,
-                paintingType : paintingType.value,
-                price :price.value,
-                description : description.value,
-                freeShipping:  freeShipping.value, 
-                inventory: inventory.value,
-              }),
+              
+              body: new FormData(editForm)
+              
             });
             const data = await response.json();
+           //console.log('data', data)
+          
             if (response.status === 200) {
               message.textContent = "The entry was updated.";
               showing.style.display = "none";
+              image.value = "";
               title.value = "";      ///??? why we show these fields equal to empty again?
               paintingType.value = "Oil";
               price.value = "";
@@ -416,7 +510,7 @@ document.addEventListener("DOMContentLoaded", () => {
               message.textContent = data.msg;
             }
           } catch (err) {
-  
+            console.log(err)
             message.textContent = "A communication error occurred.";
           }
         }
@@ -428,6 +522,7 @@ document.addEventListener("DOMContentLoaded", () => {
         editArtCollectible.dataset.id = e.target.dataset.id;
         suspendInput = true;
         try {
+          console.log('datasetID', e.target.dataset.id)
           const response = await fetch(`/api/v1/ArtCollectibles/${e.target.dataset.id}`, {
             method: "GET",
             headers: {
@@ -435,17 +530,28 @@ document.addEventListener("DOMContentLoaded", () => {
               Authorization: `Bearer ${token}`,
             },
           });
+          //console.log("responce", response) 
           const data = await response.json();
           if (response.status === 200) {
-            title.value = data.artCollectible.title;
-            price.value = data.artCollectible.price;
-            paintingType.value = data.artCollectible.paintingType;
-            description.value = data.artCollectible.description;
-            freeShipping.value = data.artCollectible.freeShipping;
-            inventory.value = data.artCollectible.inventory;
-            showing.style.display = "none";   //?? which display we make equal to none??
+            //console.log('data', data)
+            //console.log('imageURl', data.imageURL)
+            if(data.imageURL){
+              putImage(editImage, data.imageURL, token)
+            
+            }else{
+              editImage.textContent = "no image";
+            }
+            image.value = "";
+            title.value = data.title;
+            price.value = data.price;
+            paintingType.value = data.paintingType;
+            description.value = data.description;
+            freeShipping.value = data.freeShipping;
+            inventory.value = data.inventory;
+            showing.style.display = "none";   
             showing = editArtCollectible;
             showing.style.display = "block";
+        
             addingArtCollectible.textContent = "update";
             message.textContent = "";
           } else {
@@ -455,6 +561,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.dispatchEvent(thisEvent);
           }
         } catch (err) {
+          console.log(err)
           message.textContent = "A communications error has occurred.";
         }
         suspendInput = false;
@@ -484,7 +591,60 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         suspendInput = false;
       }
-      
 
+      
+       else if(e.target === adminButton ){
+        showing.style.display = "none";
+        adminMessage.style.display ="block";
+        logonDiv.style.display = "block";
+        showing = logonDiv;
+        logonRegister.style.display ="none";
+        ArtCtitle.style.display = "none"
+
+         if (e.target === logonButton) {
+          suspendInput = true;
+          try {
+            const response = await fetch("/api/v1/auth/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: email.value,
+                password: password.value,
+              }),
+            });
+            const data = await response.json();
+            if (response.status === 200) {
+              const token = data.token;
+              const role = data.role;
+              localStorage.setItem("token", token);
+              localStorage.setItem("role", role)
+              if (role === "admin"){
+                if (count > 0) {
+                  message.textContent = `Logon successful.  Welcome ${data.user.name}`;
+                  adminDiv.style.display = "block"
+                } else {
+                  ArtCollectiblesMessage.textContent = "There are no user to display for this user.";
+                  ArtCollectiblesTable.style.display = "none";
+                }
+               //2. return //this is an exprimen
+                const count = await buildAdminTable(AdminTable, AdminTableHeader, message)
+                email.value = "";
+                password.value = "";
+               
+              }
+            
+            } else {
+              message.textContent = data.msg;
+            }
+          } catch (err) {
+            message.textContent = "A communications error occurred.";
+          }
+          suspendInput = false;
+       
+      }
+     
+       }
   })
   });

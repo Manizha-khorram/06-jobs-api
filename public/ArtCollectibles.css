@@ -1,3 +1,11 @@
+
+* {
+  margin: 0;
+}
+
+html{
+  min-height: 100%;
+}
 body{
   background-color:#ffc9c485 ;
 }
@@ -14,9 +22,6 @@ display: grid;
   grid-template-areas: 
     'h1 . . logoff'   
     'message message . .';
-    
-    
-    
 
 }
 
@@ -56,11 +61,17 @@ h1{
 
 }
 
+#Admin-message p{
+  margin: 89px 12px 40px 249px;
+}
+
 #ArtCollectibles {
   
-  display: grid;
+  display: flex;
    width: 100%;
    height: 80vh;
+   flex-wrap: wrap;
+   justify-content: center;
 
 }
 
@@ -118,7 +129,7 @@ button:hover {
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 30px 388px 43px 437px;
+  margin: 0px 388px 43px 437px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -170,6 +181,45 @@ button:hover {
 
 }
 
-#logon , #register{
+#logon , #register , #Admin-button{
   margin: 68px -72px 40px 100px;
+}
+
+
+footer {
+  background-color: rgb(247 213 213);
+  margin-top:200px ;
+  padding: 20px;
+  position:absolute;
+  bottom: 0%;
+  grid-area: footer;
+}
+footer p{
+  text-align: center;
+
+  margin: 36px 10px -112px 30px;
+}
+#SocialMidia {
+  margin: 79px -1px 16px 1061px;
+}
+#gmail{
+  width: 30px;
+  height:30px;
+}
+#github{
+  width: 30px;
+  height:30px;
+}
+#linkedin{
+  width: 30px;
+  height: 30px;
+}
+footer a{
+  color: #f4b5ce;
+  padding: 20px 5px;
+  text-decoration: none;
+  background-color: transparent;
+  font-family: Gabriola;
+  font-size:large;
+
 }

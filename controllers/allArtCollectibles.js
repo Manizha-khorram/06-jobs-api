@@ -3,16 +3,38 @@ const ArtCollectible = require("../models/ArtCollectible")
 const {StatusCodes} = require ('http-status-codes')
 const {BadRequestError , NotFoundError} = require('../errors')
 const { JsonWebTokenError } = require("jsonwebtoken")
+const { json } = require('express')
 
 const getAllArtCollectibles = async (req , res) =>{
     
     
-    const ArtCollectibles = await ArtCollectible.find({})
+    const artCollectibles = await ArtCollectible.find({})
     //console.log('find it',artCollectibles)
-    if( !ArtCollectibles ){
+    if( !artCollectibles ){
       throw new NotFoundError(`No ArtCollectible available`)
     }
-    res.status(StatusCodes.OK).json({ ArtCollectibles , count : ArtCollectibles.length })
+    const artMapped = artCollectibles.map((x) => {
+     var y = JSON.parse(JSON.stringify(x))  //deep copy
+     console.log('at line 17', y)//
+     if (y.image && y.image.buffer){
+      console.log('image URL before delete', y)
+     delete y.image;
+     console.log('image URL after delete', y)
+     y.imageURL = `/api/v1/allArts/image/${x.id}`
+    
+     }
+     return y;
+     
+    })
+    res.status(StatusCodes.OK).json({ ArtCollectibles: artMapped , count : artMapped.length })
   }
 
-  module.exports = {getAllArtCollectibles}
+  const getImage = async (req , res ) =>{
+
+    const artCollectible = await ArtCollectible.findById(req.params.id)
+    console.log(artCollectible)
+    res.set("Content-Type" , artCollectible.image.contentType) //header
+    res.status(StatusCodes.OK).send(artCollectible.image.buffer)
+}
+
+  module.exports = {getAllArtCollectibles , getImage}

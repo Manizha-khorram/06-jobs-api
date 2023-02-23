@@ -6,12 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./ArtCollectibles.css">
-    <title>ArtCollectibles List</title>
+    <title >ArtCollectibles List</title>
 </head>
 
 <body>
     <div id="container">
-    <h1>ArtCollectibles List</h1>
+    <h1 id="ArtCollectible-table-title">ArtCollectibles</h1>
     <button type="button" id="logoff" style="display:none;">logoff</button>
     
     <p id="message"></p>
@@ -19,9 +19,26 @@
     <div id="logon-register" style="display:none;">
         <button type="button" id="logon">logon</button>
         <button type="button" id="register">register</button>
+        <button type="button" id="Admin-button"> Admin</button>
     </div>
+    <div id="Admin-message" style="display:none;">
+        <p> Please enter admin username and password!</p>
+    </div>
+    <div id="Admin-div" style="display:none;">
+        <h1 id="Admin-table-title">Users</h1>
+        <table id="Admin-table" style="display:none;">
+            <tr id="Admin-table-header">
+                <th>name</th>
+                <th>email</th>
+                <th>role</th>
+            </tr>
+        </table>
+       
+    </div>
+    
 </div>
     <div id="logon-div" style="display:none;">
+        
         <form>
             <div>
                 <label for="email">email:</label>
@@ -56,8 +73,8 @@
             <div>
                 <label for="role">role:</label>
                 <select id="role">
-                    <option value="admin">admin</option>
-                    <option value="artist">artist</option>
+                    <option value="admin" id="admin">admin</option>
+                    <option value="artist" id="artist">artist</option>
                     <option value="user">user</option>
                 </select>
             </div>
@@ -70,6 +87,7 @@
         <p id="ArtCollectibles-message"></p>
         <table id="ArtCollectibles-table" style="display:none;">
             <tr id="ArtCollectibles-table-header">
+                <th>image</th>
                 <th>Artist</th>
                 <th>Title</th>
                 <th>Painting type</th>
@@ -83,23 +101,19 @@
         <button type="button" id="add-ArtCollectible">add ArtCollectible</button>
     </div>
     <div id="edit-ArtCollectible" style="display:none;">
-        <form id="edit-form">
-           
+        <form id="edit-form" enctype="multipart/form-data">
+            <div id="image-edit">no image</div>
+            <div>
+                <label for="image">title:</label>
+                <input type="file"  id="image" name="image">
+            </div>
             <div>
                 <label for="title">title:</label>
-                <input type="text" id="title">
+                <input type="text" id="title" name="title">
             </div>
             <div >
-               <!-- <select name="name" class="form-control" v-model="field">
-                    <option v-for="option in param.options" :value="option.value">{{$t(option.option)}}</option>
-                </select> -->
-              <!-- <label for="painting type ">painting type:</label>
-                <select name="name" class="form-control" v-model="field">
-                    <option v-for="Oil in paintingType" :value="Oil">{{$t(Oil)}}}</option>
-                    <option v-for="WaterColor in paintingType"  v-bind:value="WaterColor">{{$t(WaterColor)}}}</option>
-                </select> --> 
                 <label for="painting type ">painting type:</label>
-                <select id="painting-type">
+                <select id="painting-type" name="paintingType">
                     <option value="Oil">Oil</option>
                     <option value="WaterColor">WaterColor</option>
                     <option value="Acrylic">Acrylic</option>
@@ -110,28 +124,64 @@
             </div>
             <div>
                 <label for="price">price:</label>
-                <input type="text" id="price">
+                <input type="text" id="price" name="price">
             </div>
             <div>
                 <label for="description">description:</label>
-                <input type="text" id="description">
+                <input type="text" id="description" name="description">
             </div>
             <div>
                 <label for="free shipping">free shipping:</label>
-                <select id="free-shipping">
+                <select id="free-shipping" name="freeShipping">
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
             </div>
             <div>
                 <label for="inventory">inventory:</label>
-                <input type="text" id="inventory">
+                <input type="text" id="inventory" name="inventory">
             </div>
             <button type="button" id="adding-ArtCollectible">add</button>
             <button type="button" id="edit-cancel">cancel</button>
         </form>
     </div>
-    
+
+
+    <!-- <div id="Cart">
+
+            <p id="Cart-message"></p>
+            <table id="Cart-table" style="display:none;">
+                <tr id="Cart-table-header">
+                    <th>Owner</th>
+                    <th>title</th>
+                    <th>price</th>
+                    <th>Artist</th>
+                    <th>quantity</th>
+                    <th colspan="2"></th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input  type="number" min="0" max="100"></td>
+                </tr>
+            </table>
+            <button type="button" onclick="" id="exit">Exit</button>
+        </div>
+         
+
+    </div> -->
+
+
+    <!-- <footer>
+        <p>@2023 ArtCollectible Website</p>
+        <section id="SocialMidia">
+            <a href="mailto:manizh.khorram@gmail.com"> <img src="./gmail.png" id="gmail" alt="gmail icon"></a>
+            <a href="https://github.com/Manizha-khorram"><img src="github.png" id="github" alt=""></a>
+            <a href="https://www.linkedin.com/in/manizha-khorram/"><img src="linkedin.png" id="linkedin" alt=""></a>
+        </section>
+    </footer> -->
     <script src="./ArtCollectibles.js"></script>
 
 </body>

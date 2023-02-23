@@ -24,7 +24,7 @@ const getCart = async (req, res) =>{
 
 const createCart = async (req , res ) =>{
 
-    const {role} = req.user
+    //const {role} = req.user
     //const {userId } = req.user
     const { artCollectibleId, quantity } = req.body;
      console.log(artCollectibleId)
@@ -60,9 +60,9 @@ const createCart = async (req , res ) =>{
         cart.artCollectibles.push({artCollectibleId, quantity , title , price , artist})
         console.log(" our cart here :",cart.artCollectibles)
     }
-    if (role !== "user"){
-        throw new NotFoundError(`You should be customer`)
-    }
+    // if (role !== "user"){
+    //     throw new NotFoundError(`You should be customer`)
+    // }
     await cart.save();
     res.status(StatusCodes.OK).json({cart})
 }else{
@@ -74,9 +74,9 @@ const createCart = async (req , res ) =>{
         price
     })
 
-    if (role !== "user"){
-        throw new NotFoundError(`You should be customer`)
-    }
+    // if (role !== "user"){
+    //     throw new NotFoundError(`You should be customer`)
+    // }
 
     res.status(StatusCodes.OK).json({newCart})  
 
