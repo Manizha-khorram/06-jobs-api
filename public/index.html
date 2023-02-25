@@ -10,30 +10,56 @@
 </head>
 
 <body>
-    <div id="container">
-    <h1 id="ArtCollectible-table-title">ArtCollectibles</h1>
+    <div id="parentContainer">
+   
+        <header>
+            
+    <h1 id="ArtCollectible-table-title" class="header-left">ArtCollectibles</h1>
+    <p id="message"></p>
+    <div class="header-right">
     <button type="button" id="logoff" style="display:none;">logoff</button>
     
-    <p id="message"></p>
-
     <div id="logon-register" style="display:none;">
         <button type="button" id="logon">logon</button>
         <button type="button" id="register">register</button>
         <button type="button" id="Admin-button"> Admin</button>
     </div>
+    </div>
+
+   
+
+</header>
+<div id="container">
+   
     <div id="Admin-message" style="display:none;">
         <p> Please enter admin username and password!</p>
     </div>
+    <div id="Admin-logon-div" style="display:none;">
+        
+        <form>
+            <div>
+                <label for="email">email:</label>
+                <input type="email" id="Admin-email">
+            </div>
+            <div>
+                <label for="password">password:</label>
+                <input type="password" id="Admin-password">
+            </div>
+            <button type="button" id="Admin-logon-button">Admin logon</button>
+            <button type="button" id="logon-cancel">cancel</button>
+        </form>
+    </div>
     <div id="Admin-div" style="display:none;">
-        <h1 id="Admin-table-title">Users</h1>
-        <table id="Admin-table" style="display:none;">
+        <table id="Admin-table" >
             <tr id="Admin-table-header">
                 <th>name</th>
                 <th>email</th>
                 <th>role</th>
+                <th></th>
             </tr>
         </table>
-       
+    
+
     </div>
     
 </div>
@@ -73,7 +99,7 @@
             <div>
                 <label for="role">role:</label>
                 <select id="role">
-                    <option value="admin" id="admin">admin</option>
+                    <option value="admin" >admin</option>
                     <option value="artist" id="artist">artist</option>
                     <option value="user">user</option>
                 </select>
@@ -173,15 +199,15 @@
 
     </div> -->
 
-
-    <!-- <footer>
+    </div>
+     <footer>
         <p>@2023 ArtCollectible Website</p>
         <section id="SocialMidia">
             <a href="mailto:manizh.khorram@gmail.com"> <img src="./gmail.png" id="gmail" alt="gmail icon"></a>
             <a href="https://github.com/Manizha-khorram"><img src="github.png" id="github" alt=""></a>
             <a href="https://www.linkedin.com/in/manizha-khorram/"><img src="linkedin.png" id="linkedin" alt=""></a>
         </section>
-    </footer> -->
+    </footer> 
     <script src="./ArtCollectibles.js"></script>
 
 </body>

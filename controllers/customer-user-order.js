@@ -41,16 +41,16 @@ const createOrder = async (req , res ) =>{
     //sum of all price values:
     const totalAmount = Nprice.reduce(function(total , arr) {
     
-           
-        return total + arr   //?? quantity
+        
+        return total + arr   
     }, 0)
     
-   
+    console.log("total",totalAmount)
 
-    const shopDiscount = totalAmount * 10 /100
-    const subtotal = totalAmount - shopDiscount
+    const shopDiscount = totalAmount * 10 /100;
+    const subtotal =  totalAmount - shopDiscount;
     
-    const amount = {totalAmount , shopDiscount , subtotal}
+    const amount = [{totalAmount , shopDiscount , subtotal}]
     
     console.log(amount);
     if(!cart){
@@ -67,7 +67,7 @@ const createOrder = async (req , res ) =>{
             amount
         })
             
-            res.status(StatusCodes.CREATED).json({order})
+            res.status(StatusCodes.CREATED).json(order)
     }
 
 

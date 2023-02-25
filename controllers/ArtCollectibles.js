@@ -60,7 +60,7 @@ const creatArtCollectible= async (req, res) => {
   if(req.file){
     req.body.image = {buffer: req.file.buffer , contentType: req.file.mimetype}
   }
-  console.log("Here is the req.file",req.file)
+  //console.log("Here is the req.file",req.file)
   //console.log("Here is req.body", req.body)
     const artCollectible = await ArtCollectible.create(req.body)  // 1.creating the artCollectible and push it into req.body
     res.status(StatusCodes.CREATED).json({artCollectible}) //parse it
@@ -82,7 +82,7 @@ const updateArtCollectible = async (req, res) => {
     if(req.file){
         req.body.image = {buffer: req.file.buffer , contentType: req.file.mimetype}
       }
-      console.log(req.file)
+     // console.log(req.file)
     // if(title === '' || price === ''){
     //     throw new BadRequestError(' Title or price cannot be empty!')
     // }

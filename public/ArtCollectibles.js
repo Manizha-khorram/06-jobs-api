@@ -43,7 +43,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
         },
       });
       const data = await response.json();
-      //console.log('dataaaaaa', data)
+      console.log('dataaaaaa', data)
       var children = [ArtCollectiblesTableHeader];
       if (response.status === 200) {
         if (data.count === 0) {
@@ -139,7 +139,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
           },
         });
         const data = await response.json();
-        console.log('dataaaaaa', data)
+        //console.log('dataaaaaa', data)
         var children = [AdminTableHeader];
         if (response.status === 200) {
           if (data.count === 0) {
@@ -148,8 +148,9 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
           } else {
   
             for (let i = 0; i < data.users.length; i++) {
+              
               //let editButton = `<td><button type="button" class="editButton" data-id=${data.ArtCollectibles[i]._id} >edit</button></td>`;
-              let deleteButton = `<td><button type="button" class="deleteButton" data-id=${data.users[i]._id}>delete</button></td>`;
+              let deleteButton = `<td><button type="button" class="AdmindeleteButton" data-id=${data.users[i]._id}>delete</button></td>`;
               let rowHTML = `<td>${data.users[i].name}</td><td>${data.users[i].email}</td><td>${data.users[i].role}</td>${deleteButton}`;
               let rowEntry = document.createElement("tr");
               rowEntry.innerHTML = rowHTML;
@@ -188,7 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const password1 = document.getElementById("password1");
     const password2 = document.getElementById("password2");
     const roleEntry = document.getElementById("role");
-    const role = roleEntry.value;
+    const admin = roleEntry[0].value;
+    const artist = roleEntry[1].value
     const adminButton = document.getElementById('Admin-button')
     const registerButton = document.getElementById("register-button");
     const registerCancel = document.getElementById("register-cancel");
@@ -209,12 +211,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const editCancel = document.getElementById("edit-cancel")
     const editForm = document.getElementById("edit-form")
     const editImage = document.getElementById("image-edit")
-    const adminDiv = document.getElementById("Admin-div");
+    const AdminDiv = document.getElementById("Admin-div");
     const AdminTable = document.getElementById("Admin-table")
     const AdminTableHeader =document.getElementById('Admin-table-header')
     const adminMessage = document.getElementById("Admin-message")
     const ArtCtitle = document.getElementById("ArtCollectible-table-title")
     const AdminTabletitle = document.getElementById("Admin-table-title")
+    const Adminlogon = document.getElementById("Admin-logon-div")
+    const AdminlogonButton = document.getElementById("Admin-logon-button")
+    const AdminlogonCancel = document.getElementById("Admin-logon-cancel")
+    const Adminemail = document.getElementById("Admin-email");
+    const Adminpassword = document.getElementById("Admin-password");
   
   
     // section 2 
@@ -242,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
      //2. return //this is an expriment
      ArtCollectibles.style.display = "block";
-     ArtCollectibles.style.margin = "-71px 30px 100px 20px";
+   
       showing = ArtCollectibles; 
       addArtCollectible.style.display = "none";
      
@@ -256,11 +263,21 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("startDisplay", async (e) => {
     //showing = logonRegister;
     token = localStorage.getItem("token");
+    role = localStorage.getItem("role")
+    console.log("here is role and token", token ,role)
+    
     if (token) {
+      logoff.style.display = "block";
+      
+      if (localStorage.role === artist){
+        console.log("roleee", localStorage.role)
       //if the user is logged in
       logoff.style.display = "block";
       logonRegister.style.display = "none"
       addArtCollectible.style.display ="block"
+      adminMessage.style.display="none"
+      Adminlogon.style.display="none";
+      
       const count = await buildArtCollectiblesTable(
         ArtCollectiblesTable,
         ArtCollectiblesTableHeader,
@@ -276,8 +293,32 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       ArtCollectibles.style.display = "block";
       showing = ArtCollectibles;
+      ArtCtitle.style.display="block";
       //ArtCollectibles.style.display= "10px 30px 100px 20px";
-    } else {
+    } 
+     if (localStorage.role === admin){
+      logoff.style.display = "block";
+      Adminlogon.style.display="none"
+     
+      const count = await buildAdminTable(AdminTable, AdminTableHeader,token,message)
+     
+      if (count > 0) {
+        message.textContent = `Logon successful.  Welcome ${data.user.name}`;
+        AdminTable.style.display = "block"
+      } else {
+        ArtCollectiblesMessage.textContent = "There are no user to display for this user.";
+        ArtCollectiblesTable.style.display = "none";
+      }
+      
+      AdminDiv.style.display = "block";
+      showing = AdminDiv;
+      ArtCtitle.style.display="block"
+      ArtCtitle.textContent= "Users"
+      adminMessage.style.display="none"
+    }
+  
+  }
+    else {
       
 
       logonRegister.style.display = "block";
@@ -310,6 +351,9 @@ document.addEventListener("DOMContentLoaded", () => {
       showing.style.display = "none";
       logoff.style.display = "none";
       logonRegister.style.display = "block";
+      ArtCtitle.style.display= "block"
+      ArtCtitle.textContent="ArtCollectibles";
+      Adminlogon.style.display="none"
       showing = logonRegister;
       ArtCollectiblesTable.replaceChildren(ArtCollectiblesTableHeader); // don't want other users to see
       message.textContent = "You are logged off.";
@@ -327,6 +371,9 @@ document.addEventListener("DOMContentLoaded", () => {
       showing = registerDiv;
     } else if (e.target === logonCancel || e.target == registerCancel) {
       showing.style.display = "none";
+      Adminlogon.style.display= "none";
+      adminMessage.style.display="none"
+      ArtCtitle.style.display="block"
       logonRegister.style.display = "block";
       showing = logonRegister;
       email.value = "";
@@ -354,8 +401,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await response.json();
         if (response.status === 200) {
           message.textContent = `Logon successful.  Welcome ${data.user.name}`;
-          token = data.token;
+          const token = data.token;
+          const role = data.user.role
+          //console.log("hey role",role)
           localStorage.setItem("token", token);
+          localStorage.setItem("role", role)
+         
           showing.style.display = "none";
           thisEvent = new Event("startDisplay");
           email.value = "";
@@ -533,8 +584,6 @@ document.addEventListener("DOMContentLoaded", () => {
           //console.log("responce", response) 
           const data = await response.json();
           if (response.status === 200) {
-            //console.log('data', data)
-            //console.log('imageURl', data.imageURL)
             if(data.imageURL){
               putImage(editImage, data.imageURL, token)
             
@@ -551,7 +600,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showing.style.display = "none";   
             showing = editArtCollectible;
             showing.style.display = "block";
-        
+           // editImage.style.display ="block"
             addingArtCollectible.textContent = "update";
             message.textContent = "";
           } else {
@@ -596,12 +645,14 @@ document.addEventListener("DOMContentLoaded", () => {
        else if(e.target === adminButton ){
         showing.style.display = "none";
         adminMessage.style.display ="block";
-        logonDiv.style.display = "block";
+        Adminlogon.style.display = "block";
         showing = logonDiv;
         logonRegister.style.display ="none";
-        ArtCtitle.style.display = "none"
-
-         if (e.target === logonButton) {
+        ArtCtitle.style.display= "none"
+        console.log('line 608')
+       }
+         else if (e.target === AdminlogonButton) {
+          console.log('line 611')
           suspendInput = true;
           try {
             const response = await fetch("/api/v1/auth/login", {
@@ -610,41 +661,60 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                email: email.value,
-                password: password.value,
+                email: Adminemail.value,
+                password: Adminpassword.value,
               }),
             });
+           // console.log(response)
             const data = await response.json();
+           // console.log(data)
             if (response.status === 200) {
+              message.textContent = `Logon successful.  Welcome ${data.user.name}`;
               const token = data.token;
-              const role = data.role;
+              const role = data.user.role
               localStorage.setItem("token", token);
-              localStorage.setItem("role", role)
-              if (role === "admin"){
-                if (count > 0) {
-                  message.textContent = `Logon successful.  Welcome ${data.user.name}`;
-                  adminDiv.style.display = "block"
-                } else {
-                  ArtCollectiblesMessage.textContent = "There are no user to display for this user.";
-                  ArtCollectiblesTable.style.display = "none";
-                }
-               //2. return //this is an exprimen
-                const count = await buildAdminTable(AdminTable, AdminTableHeader, message)
-                email.value = "";
-                password.value = "";
-               
-              }
-            
+              localStorage.setItem("role", role);
+              showing.style.display = "none";
+              thisEvent = new Event("startDisplay");
+              Adminemail.value = "";
+              Adminpassword.value = "";
+              document.dispatchEvent(thisEvent);
+              
             } else {
               message.textContent = data.msg;
             }
           } catch (err) {
+            console.log(err)
             message.textContent = "A communications error occurred.";
           }
           suspendInput = false;
        
+      } else if ( e.target.classList.contains('AdmindeleteButton')){
+        AdminTable.dataset.id = e.target.dataset.id
+        suspendInput = true;
+
+        try{
+           const response = await fetch(`/api/v1/Admin/${e.target.dataset.id}`, {
+            method: "DELETE",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+       // const data = await response.json();
+          if (response.status === 200) {
+        
+            message.textContent = "User deleted!";
+            thisEvent = new Event("startDisplay");
+            document.dispatchEvent(thisEvent);
+          } 
+        } catch (err) {
+          message.textContent = "A communications error has occurred.";
+        }
+        suspendInput = false;
       }
      
-       }
+       
   })
   });

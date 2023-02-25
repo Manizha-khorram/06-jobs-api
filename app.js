@@ -51,7 +51,7 @@ app.use('/api/v1/ArtCollectibles',authenticateUser, ArtCollectiblesRouter) // we
 app.use('/api/v1/Admin' ,authenticateUser ,adminUserRouter)
 
 //customerUser
-app.use('/api/v1/carts' , customerUserCartRouter )
+app.use('/api/v1/carts' , authenticateUser,customerUserCartRouter )
 app.use('/api/v1/orders',authenticateUser , customerUserOrderRouter )
 
 // error handler

@@ -15,11 +15,11 @@ const getAllArtCollectibles = async (req , res) =>{
     }
     const artMapped = artCollectibles.map((x) => {
      var y = JSON.parse(JSON.stringify(x))  //deep copy
-     console.log('at line 17', y)//
+     //console.log('at line 17', y)//
      if (y.image && y.image.buffer){
-      console.log('image URL before delete', y)
+    //  console.log('image URL before delete', y)
      delete y.image;
-     console.log('image URL after delete', y)
+    // console.log('image URL after delete', y)
      y.imageURL = `/api/v1/allArts/image/${x.id}`
     
      }
@@ -32,7 +32,7 @@ const getAllArtCollectibles = async (req , res) =>{
   const getImage = async (req , res ) =>{
 
     const artCollectible = await ArtCollectible.findById(req.params.id)
-    console.log(artCollectible)
+    //console.log(artCollectible)
     res.set("Content-Type" , artCollectible.image.contentType) //header
     res.status(StatusCodes.OK).send(artCollectible.image.buffer)
 }
