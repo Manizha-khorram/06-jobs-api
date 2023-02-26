@@ -37,4 +37,9 @@ const getAllArtCollectibles = async (req , res) =>{
     res.status(StatusCodes.OK).send(artCollectible.image.buffer)
 }
 
-  module.exports = {getAllArtCollectibles , getImage}
+const getSwagger = async (req , res) => {
+
+  res.send('<a href="/api-docs">Documentation</a>')
+}
+
+  module.exports = {getAllArtCollectibles , getImage, getSwagger}

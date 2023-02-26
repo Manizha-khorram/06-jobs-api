@@ -7,6 +7,9 @@ const helmet = require('express')
 const cors = require ('cors')
 const xss = require('xss-clean')
 const rateLimitter = require ('express-rate-limit')
+const swaggerUI = require('swagger-ui-express')
+const YAML = require('yamljs')
+const swaggerDocument = YAML.load('./swagger.yaml')
 
 const express = require('express');
 const app = express();
@@ -29,7 +32,7 @@ app.use(
 app.use(helmet())
 app.use(cors())
 app.use(xss())
-
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 //connectDb
 
