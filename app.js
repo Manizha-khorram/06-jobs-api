@@ -24,7 +24,7 @@ const allArtCollectibles = require('./routes/allArtCollectibles')
 app.use(express.json());
 // extra packages
 app.set('trust proxy', 1)
-app.use(
+app.use( 
   rateLimitter({
     windowMs : 15 * 60 *100, //15 minutes
     max : 100 , //limit each IP to 100 req per windowMs
