@@ -6,7 +6,7 @@ const {getAllArtCollectibles , getImage, getSwagger } = require('../controllers/
 
 router.route('/').get(getAllArtCollectibles)
 router.route('/image/:id').get(getImage)
-router.route('/swagerUI').get(getSwagger)
+
 
 
 module.exports = router ;

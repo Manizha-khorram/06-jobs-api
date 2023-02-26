@@ -222,11 +222,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const AdminlogonCancel = document.getElementById("Admin-logon-cancel")
     const Adminemail = document.getElementById("Admin-email");
     const Adminpassword = document.getElementById("Admin-password");
+    const swaggerButton = document.getElementById("swagger-link")
   
   
     // section 2 
 
-  
 
     let showing = logonRegister;
   let token = null;
@@ -252,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
    
       showing = ArtCollectibles; 
       addArtCollectible.style.display = "none";
+      swaggerButton.style.display = "block";
      
 
   });
@@ -714,7 +715,31 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         suspendInput = false;
       }
-     
+      // console.log('line 718')
+      //  if(e.target === swaggerButton){
+        
+
+       // suspendInput= true;
+        
+      //   try{
+      //     const response = await fetch(`/api/v1/allArts/swaggerUI`, {
+      //      method: "GET",
+      //      headers: {
+      //      "Content-Type": "application/json",
+      //    },
+      //  });
+     // const data = await response.json();
+      // console.log('response', response)
+      //    if (response.status === 200) {
+       
+          
+      //    } 
+      //  } catch (err) {
+      //   console.log(err)
+      //    message.textContent = "A communications error has occurred.";
+      //  }
+      //  suspendInput = false;
+       
        
   })
   });
