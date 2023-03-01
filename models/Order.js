@@ -37,10 +37,10 @@ const OrderSchema = mongoose.Schema(
       }
     }],
     
-    address :{
-      type : String ,
-      required : true,  
-    },
+    // address :{
+    //   type : String ,
+    //   required : true,  
+    // },
     status :{
       type : String,
       default : "pending"

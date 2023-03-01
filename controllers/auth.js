@@ -20,7 +20,7 @@ const register = async (req , res)=>{
    
    const user = await User.create({...req.body})  //modelname.create   //because we want the mongoose to do all the validations so we put the req.body into creat method. then tempUser for just one user.
    const token = user.createJWT()
-   res.status(StatusCodes.CREATED).json({ user :{name : user.name } , token})
+   res.status(StatusCodes.CREATED).json({ user :{name : user.name , role : user.role} , token})
 
 }
 

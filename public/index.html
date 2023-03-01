@@ -17,7 +17,12 @@
     <h1 id="ArtCollectible-table-title" class="header-left">ArtCollectibles</h1>
     <p id="message"></p>
     <div class="header-right">
-    <button type="button" id="logoff" style="display:none;">logoff</button>
+     <div id="logoff-cart">
+        <button type="button" id="user-cart" style="display:none;">Cart</button>
+        <button type="button" id="logoff" style="display:none;">logoff</button>
+      
+     </div>   
+    
     
     <div id="logon-register" style="display:none;">
         <button type="button" id="logon">logon</button>
@@ -122,6 +127,7 @@
                 <th>Free shipping</th>
                 <th>Inventory</th>
                 <th colspan="2"></th>
+                <th colspan="2"></th>
             </tr>
         </table>
         <button type="button" id="add-ArtCollectible">add ArtCollectible</button>
@@ -172,35 +178,46 @@
         </form>
     </div>
   
-    <button id="swagger-link" onclick="location.href = '/api-docs'">Documentation</button>
+    <button id="swagger-link" onclick="location.href = '/api-docs'"  display="none">Documentation</button>
       
-  
-
-    <!-- <div id="Cart">
+    <div id="Cart">
 
             <p id="Cart-message"></p>
             <table id="Cart-table" style="display:none;">
                 <tr id="Cart-table-header">
-                    <th>Owner</th>
                     <th>title</th>
                     <th>price</th>
                     <th>Artist</th>
                     <th>quantity</th>
                     <th colspan="2"></th>
+                    <th colspan="2"></th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><input  type="number" min="0" max="100"></td>
-                </tr>
-            </table>
-            <button type="button" onclick="" id="exit">Exit</button>
-        </div>
-         
 
+            </table>
+           
+                <button type="button" id="order-Button" display="none">Process Order</button>
+        </div>
+      
+        <button type="button" id="exit">Exit</button>
+    <!-- <div id="order-Div"></div>
+    
+    <p id="order-message"></p>
+    <table id="order-table" style="display:none;">
+        <tr id="order-table-header">
+            <th>quantity</th>
+            <th>free Shipping</th>
+            <th>total amount</th>
+            <th>shop discount</th>
+            <th>subtotal</th>
+            <th colspan="2"></th>
+            <th colspan="2"></th>
+        </tr>
+
+    </table>
+   
+        <button type="button" id="checkout">Checkout</button>
     </div> -->
+=
 
     </div>
      <footer>

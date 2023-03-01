@@ -7,14 +7,10 @@ const putImage = (tdElement,imageURL , token) => {
       Accept: "image/*"
     }
   };
-  //console.log('SRC', src)
-  //console.log('options', options)
   fetch(src, options)
   .then(res => res.blob())
   .then(blob => {
    let imageSrc = URL.createObjectURL(blob);
-  // console.log('imageSrc', imageSrc)
-   console.log('blobnum1', blob)
    if (imageSrc) {
       const image = document.createElement("img")
       image.onload= function(){
@@ -26,13 +22,15 @@ const putImage = (tdElement,imageURL , token) => {
         
      
       image.src = imageSrc
-     // console.log('imageSRC',imageSrc)
+     
       
   }else{
     console.log('no image')
   }
   });
 }
+
+//this function is to built ArtCollectible table
 async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTableHeader, token, message) {
     try {
       const response = await fetch("/api/v1/ArtCollectibles", {
@@ -47,7 +45,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
       var children = [ArtCollectiblesTableHeader];
       if (response.status === 200) {
         if (data.count === 0) {
-          ArtCollectiblesTable.replaceChildren(...children); // clear this for safety
+          ArtCollectiblesTable.replaceChildren(...children); // it means clear this for safety
           return 0;
         } else {
 
@@ -83,7 +81,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
   }
 
   
-
+//this function is to build all ArtCollectibles for all user at load page
   async function buildAllArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTableHeader, message) {
     
     try {
@@ -96,7 +94,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
     
       
    let data = await response.json();
-   // console.log('here you are',data)
+    console.log('here you are',data)
       var children = [ArtCollectiblesTableHeader];
       if (response.status === 200) {
         if (data.count === 0) {
@@ -108,7 +106,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
             if(data.ArtCollectibles[i].imageURL){
               image = `<img src=\"${data.ArtCollectibles[i].imageURL }" hight="70" width="70">`
             }
-            let cartButton = `<td><button type="button" class="Cart"  data-id=${data.ArtCollectibles[i]._id}>Add to Cart</button></td>`;
+            let cartButton = `<td><button type="button" class="cartButton" artCollectibleId=${data.ArtCollectibles[i]._id} data-id=${data.ArtCollectibles[i]._id}  id="cart${data.ArtCollectibles[i]._id}">Add to Cart</button></td>`;
            // let orderButton = `<td><button type="button" class="order" data-id=${data.ArtCollectibles[i]._id}>Process Order</button></td>`;
             let rowHTML = `<td>${image}</td><td>${data.ArtCollectibles[i].artist}</td><td>${data.ArtCollectibles[i].title}</td><td>${data.ArtCollectibles[i].paintingType}</td><td>${data.ArtCollectibles[i].price}</td><td>${data.ArtCollectibles[i].description}</td><td>${data.ArtCollectibles[i].freeShipping}</td><td>${data.ArtCollectibles[i].inventory}</td>${cartButton}`;
             let rowEntry = document.createElement("tr");
@@ -129,6 +127,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
     }
     }
 
+//this function is to biuld the User table for Admin
     async function buildAdminTable(AdminTable, AdminTableHeader, token, message) {
       try {
         const response = await fetch("/api/v1/admin/users", {
@@ -172,6 +171,100 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
       }
     }
 
+//this function is to biuld cart table for user
+    async function buildCartTable(CartTable, CartTableHeader , token , message) {
+     
+      try {
+        console.log("token", token)
+        const response = await fetch(`/api/v1/carts`, {
+          method: "GET",
+          
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          
+        });
+      
+        
+     let data = await response.json();
+    
+     //console.log('here you are',data)
+        var children = [CartTableHeader];
+        if (response.status === 200) {
+          if (data.count === 0) {
+            CartTable.replaceChildren(...children); // clear this for safety
+            return 0;
+          } else {
+            for (let i = 0; i < data.length; i++) {
+              let deleteButton = `<td><button type="button" class="deleteButtonCart" data-id=${data.cart.artCollectibles[i]._id}>delete</button></td>`;
+              let inputField = `<td><input type="text" class="inputField" artCollectibleId="${data.cart.artCollectibles[i].artCollectibleId}" id="input${data.cart.artCollectibles[i]._id}" name="inputField"></td>`;
+              let quantityButton = `<td><button type="button" increment=${inputField.value} class="quantityButtonCart" data-id=${data.cart.artCollectibles[i]._id}>add quantity</button></td>`;
+              console.log("input", deleteButton)
+              let rowHTML = `<td>${data.cart.artCollectibles[i].title}</td><td>${data.cart.artCollectibles[i].price}</td><td>${data.cart.artCollectibles[i].artist}</td><td>${data.cart.artCollectibles[i].quantity}</td></td>${inputField}${quantityButton}${deleteButton}`;
+              let rowEntry = document.createElement("tr");
+              rowEntry.innerHTML = rowHTML; 
+              children.push(rowEntry);
+            }
+            CartTable.replaceChildren(...children);
+          }
+          return data.length;
+        } else {
+          message.textContent = data.msg;
+          return 0;
+        }
+      } catch (err) {
+        console.log(err)
+        message.textContent = "A communication error occurred.";
+        return 0;
+      }
+      }
+
+//this funtion is to build the order table for user, I have the logic at the backend but I will work on this later
+      // async function buildOrderTable(orderTable, orderTableHeader , token , message) {
+     
+      //   try {
+      //     console.log("token", token)
+      //     const response = await fetch(`/api/v1/orders`, {
+      //       method: "POST",
+            
+      //         headers: {
+      //           "Content-Type": "application/json",
+      //           Authorization: `Bearer ${token}`,
+      //         },
+            
+      //     });
+        
+          
+      //  let data = await response.json();
+      
+      //  console.log('here you are',data)
+      //     var children = [orderTableHeader];
+      //     console.log('childs',children)
+      //     if (response.status === 200) {
+      //       if (data.count === 0) {
+      //         orderTable.replaceChildren(...children); // clear this for safety
+      //         return 0;
+      //       } else {
+      //         for (let i = 0; i < data.length; i++) {
+      //           let rowHTML = `<td>${data.artCollectibles[i].quantity}</td><td>${data.artCollectibles[i].freeShipping}</td>`;
+      //           let rowEntry = document.createElement("tr");
+      //           rowEntry.innerHTML = rowHTML; 
+      //           children.push(rowEntry);
+      //         }
+      //         orderTable.replaceChildren(...children);
+      //       }
+      //       return data.length;
+      //     } else {
+      //       message.textContent = data.msg;
+      //       return 0;
+      //     }
+      //   } catch (err) {
+      //     console.log(err)
+      //     message.textContent = "A communication error occurred.";
+      //     return 0;
+      //   }
+      //   }
 document.addEventListener("DOMContentLoaded", () => {
     const logoff = document.getElementById("logoff");
     const message = document.getElementById("message");
@@ -223,17 +316,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const Adminemail = document.getElementById("Admin-email");
     const Adminpassword = document.getElementById("Admin-password");
     const swaggerButton = document.getElementById("swagger-link")
+    const user = roleEntry[2].value;
+    const Cart = document.getElementById("Cart");
+    const CartTable = document.getElementById("Cart-table");
+    const CartTableHeader = document.getElementById("Cart-table-header");
+    const userCart = document.getElementById("user-cart")
+    const exitButton = document.getElementById("exit");
+    const orderButton = document.getElementById("order-Button")
+    const orderDiv = document.getElementById("order-Div");
+    const orderTable = document.getElementById("order-table");
+    const orderTableHeader = document.getElementById("order-table-header");
+    const checkoutButton = document.getElementById("checkout");
+   
   
-  
-    // section 2 
+   
 
-
-    let showing = logonRegister;
+  let showing = logonRegister;
   let token = null;
+
+  //this EventListener is for when the page is load, here we dont have JWT and dont implement the authentication!
   document.addEventListener("load" , async()=>{
     
       showing = logonRegister;   
-
+      
       const count = await buildAllArtCollectiblesTable(
         ArtCollectiblesTable,
         ArtCollectiblesTableHeader,
@@ -246,6 +351,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
         ArtCollectiblesTable.style.display = "none";
+        
       }
      //2. return //this is an expriment
      ArtCollectibles.style.display = "block";
@@ -253,6 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showing = ArtCollectibles; 
       addArtCollectible.style.display = "none";
       swaggerButton.style.display = "block";
+      Cart.style.display = "none";
      
 
   });
@@ -295,6 +402,10 @@ document.addEventListener("DOMContentLoaded", () => {
       ArtCollectibles.style.display = "block";
       showing = ArtCollectibles;
       ArtCtitle.style.display="block";
+      swaggerButton.style.display = "none";
+      exitButton.style.display="none"
+      orderButton.style.display ="none"
+      Cart.style.display = "none";
       //ArtCollectibles.style.display= "10px 30px 100px 20px";
     } 
      if (localStorage.role === admin){
@@ -316,6 +427,39 @@ document.addEventListener("DOMContentLoaded", () => {
       ArtCtitle.style.display="block"
       ArtCtitle.textContent= "Users"
       adminMessage.style.display="none"
+      swaggerButton.style.display = "none";
+      exitButton.style.display="none"
+      orderButton.style.display ="none"
+      Cart.style.display = "none";
+    }
+
+
+    if(localStorage.role === user){
+    
+      const count = await buildAllArtCollectiblesTable(
+        ArtCollectiblesTable,
+        ArtCollectiblesTableHeader,
+        message
+      );
+     //1. return //this is an expriment
+      if (count > 0) {
+        ArtCollectiblesMessage.textContent = "";
+        ArtCollectiblesTable.style.display = "block";
+      } else {
+        ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
+        ArtCollectiblesTable.style.display = "none";
+      }
+     //2. return //this is an expriment
+     ArtCollectibles.style.display = "block";
+      userCart.style.display = "block"
+      showing = ArtCollectibles; 
+      addArtCollectible.style.display = "none";
+      swaggerButton.style.display = "none";
+      logonDiv.style.display ="none";
+      logonRegister.style.display = "none";
+      exitButton.style.display="none"
+      orderButton.style.display ="none"
+
     }
   
   }
@@ -350,30 +494,36 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("token");
       token = null;
       showing.style.display = "none";
+      userCart.style.display = "none";
       logoff.style.display = "none";
       logonRegister.style.display = "block";
       ArtCtitle.style.display= "block"
       ArtCtitle.textContent="ArtCollectibles";
       Adminlogon.style.display="none"
+      Cart.style.display = "none";
       showing = logonRegister;
       ArtCollectiblesTable.replaceChildren(ArtCollectiblesTableHeader); // don't want other users to see
       message.textContent = "You are logged off.";
       thisEvent = new Event("load");
       document.dispatchEvent(thisEvent);
+      Cart.style.display = "none";
 
     } else if (e.target === logon) {
       //console.log('at line 197')
       showing.style.display = "none";
       logonDiv.style.display = "block";
       showing = logonDiv;
+      Cart.style.display = "none";
     } else if (e.target === register) {   
       showing.style.display = "none";
       registerDiv.style.display = "block";
       showing = registerDiv;
+      Cart.style.display = "none";
     } else if (e.target === logonCancel || e.target == registerCancel) {
       showing.style.display = "none";
       Adminlogon.style.display= "none";
       adminMessage.style.display="none"
+      Cart.style.display = "none";
       ArtCtitle.style.display="block"
       logonRegister.style.display = "block";
       showing = logonRegister;
@@ -438,11 +588,16 @@ document.addEventListener("DOMContentLoaded", () => {
               role:role.value,
             }),
           });
+          
           const data = await response.json();
+          console.log(data)
           if (response.status === 201) {
             message.textContent = `Registration successful.  Welcome ${data.user.name}`;
-            token = data.token;
+            const token = data.token;
+            const role = data.user.role
+            console.log("userrole", role)
             localStorage.setItem("token", token);
+            localStorage.setItem("role",role)
             showing.style.display = "none";
             thisEvent = new Event("startDisplay");
             document.dispatchEvent(thisEvent);
@@ -499,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 Authorization: `Bearer ${token}`,
               },
 
-              body: new FormData(editForm)  //insted of putting each form input separetly we put it like this!
+              body: new FormData(editForm)  //instead of putting each form input separetly we put it like this!
             });
             //console.log(response)
             const data = await response.json();
@@ -574,7 +729,7 @@ document.addEventListener("DOMContentLoaded", () => {
         editArtCollectible.dataset.id = e.target.dataset.id;
         suspendInput = true;
         try {
-          console.log('datasetID', e.target.dataset.id)
+       //   console.log('datasetID', e.target.dataset.id)
           const response = await fetch(`/api/v1/ArtCollectibles/${e.target.dataset.id}`, {
             method: "GET",
             headers: {
@@ -648,6 +803,7 @@ document.addEventListener("DOMContentLoaded", () => {
         adminMessage.style.display ="block";
         Adminlogon.style.display = "block";
         showing = logonDiv;
+        Cart.style.display = "none";
         logonRegister.style.display ="none";
         ArtCtitle.style.display= "none"
         console.log('line 608')
@@ -676,6 +832,7 @@ document.addEventListener("DOMContentLoaded", () => {
               localStorage.setItem("token", token);
               localStorage.setItem("role", role);
               showing.style.display = "none";
+              Cart.style.display = "none";
               thisEvent = new Event("startDisplay");
               Adminemail.value = "";
               Adminpassword.value = "";
@@ -715,31 +872,185 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         suspendInput = false;
       }
-      // console.log('line 718')
-      //  if(e.target === swaggerButton){
+     
+      else if (e.target.classList.contains("cartButton")){
+      if(token){
+        console.log("itemID",e.target)
+    const artCollectibleId = e.target.getAttribute("artCollectibleId")
+  
+ 
+        suspendInput = true;
+        console.log("itemID", e.target.dataset.id)
         
+           const response = await fetch(`/api/v1/carts`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            artCollectibleId: artCollectibleId,
+            quantity: 1,
+          }),
+        });
+      
 
-       // suspendInput= true;
+       const count = await buildCartTable(CartTable, CartTableHeader , token , message)
+
+      
+       if (count > 0) {
+        ArtCollectiblesMessage.textContent = "";
+        CartTable.style.display = "block";
+      } else {
+        ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
+       CartTable.style.display = "none";
+      
+      }
+    
+     Cart.style.display = "block";
+     logonRegister.style.display ="none"
+     ArtCollectiblesTable.style.display= "none"
+     swaggerButton.style.display = "none"
+      showing = Cart; 
+      addArtCollectible.style.display = "none";
+      swaggerButton.style.display = "none";
+      exitButton.style.display="block"
+      orderButton.style.display ="block"
+    }else{
+      logonDiv.style.display="block"
+    }
+    suspendInput = false;
+  }
+   
+  else if ( e.target.classList.contains('deleteButtonCart')){
+    const artCollectibleId = document.getElementById(`input${e.target.dataset.id}`).getAttribute("artCollectibleId")
+    suspendInput = true;
+    //console.log( artCollectibleId)
+
+    try{
+       const response = await fetch(`/api/v1/carts/${artCollectibleId}`, {
+        method: "DELETE",
+        headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("resp",response)
+   // const data = await response.json();
+      if (response.status === 200) {
+    
+        message.textContent = "item deleted!";
+        Cart.style.display= "none"
+        CartTable.style.display= "none"
+        thisEvent = new Event("startDisplay");
+        document.dispatchEvent(thisEvent);
+      } 
+    } catch (err) {
+      message.textContent = "A communications error has occurred.";
+    }
+    suspendInput = false;
+  }
+
+  else if( e.target === exitButton){
+    
+    CartTable.style.display ="none"
+    thisEvent = new Event("startDisplay");
+      document.dispatchEvent(thisEvent);
+     
+  }
+  
+
+  else if(e.target.classList.contains("quantityButtonCart")){
+
+   
+    const inputField = document.getElementById(`input${e.target.dataset.id}`)
+    const quantity = inputField.value
+    const artCollectibleId = inputField.getAttribute("artCollectibleId")
+  console.log("quantity",quantity)
+  console.log("artcoID", artCollectibleId)
+    CartTable.dataset.id = e.target.dataset.id
+        suspendInput = true;
+        console.log("itemID", e.target.dataset.id)
+        try{
+           const response = await fetch(`/api/v1/carts`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            artCollectibleId: artCollectibleId,
+            quantity: parseFloat(quantity),
+          }),
+        });
+
+       // const data = await response.json();
+          if (response.status === 200) {
         
-      //   try{
-      //     const response = await fetch(`/api/v1/allArts/swaggerUI`, {
-      //      method: "GET",
-      //      headers: {
-      //      "Content-Type": "application/json",
-      //    },
-      //  });
-     // const data = await response.json();
-      // console.log('response', response)
-      //    if (response.status === 200) {
-       
-          
-      //    } 
-      //  } catch (err) {
-      //   console.log(err)
-      //    message.textContent = "A communications error has occurred.";
-      //  }
-      //  suspendInput = false;
-       
-       
+            message.textContent = "quantity edited";
+            thisEvent = new Event("startDisplay");
+            document.dispatchEvent(thisEvent);
+          } 
+        } catch (err) {
+          console.log(err)
+          message.textContent = "A communications error has occurred.";
+        }
+        suspendInput = false;
+      }
+  
+    else if(e.target === userCart){
+
+      const count = await buildCartTable(CartTable, CartTableHeader , token , message)
+
+      
+       if (count > 0) {
+        ArtCollectiblesMessage.textContent = "";
+        CartTable.style.display = "block";
+      } else {
+        ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
+       CartTable.style.display = "none";
+      
+      }
+    
+     Cart.style.display = "block";
+     logonRegister.style.display ="none"
+     ArtCollectiblesTable.style.display= "none"
+     swaggerButton.style.display = "none"
+      showing = Cart; 
+      addArtCollectible.style.display = "none";
+      swaggerButton.style.display = "none";
+      exitButton.style.display="block"
+      orderButton.style.display ="block"
+
+    }
+  //this part is ralated to order, which I will work on it later!
+    //   else if(e.target === orderButton ){
+  
+    //     const count = await buildOrderTable(orderTable, orderTableHeader , token , message)
+  
+    //     console.log("count", count)
+    //     if (count > 0) {
+    //      ArtCollectiblesMessage.textContent = "";
+    //      orderTable.style.display = "block";
+    //    } else {
+    //      ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
+    //     CartTable.style.display = "none";
+         
+    //    }
+    //   orderTable.style.display = "block";
+    //   orderDiv.style.display = "block";
+    //   logonRegister.style.display ="none"
+    //   ArtCollectiblesTable.style.display= "none"
+    //   swaggerButton.style.display = "none"
+    //    showing = orderDiv; 
+    //    CartTable.style.display ="block"
+    //    addArtCollectible.style.display = "none";
+    //    swaggerButton.style.display = "none";
+    //    exitButton.style.display="block"
+    //    orderButton.style.display ="block"
+  
+  
+    // }
+  
   })
-  });
+  }); 

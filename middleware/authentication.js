@@ -7,6 +7,7 @@ const auth = (req , res , next)=> {
     //check header
     //console.log("Headers equal :",req.headers)
     const authHeader = req.headers.authorization
+    console.log("Auth header", authHeader)
     if ( !authHeader || !authHeader.startsWith('Bearer')){
         throw new UnauthenticatedError('Authentication Inavalid')
     }
