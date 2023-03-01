@@ -1,28 +1,42 @@
 
-const { number } = require('joi');
 const mongoose = require('mongoose');
 
 const OrderSchema = mongoose.Schema(
     {
       userID: {
         type: Number,
-        required: true,
+        //required: true,
       },
-     products:[
+     artCollectibles:[
        {
-        productId :{
+        artCollectibleId :{
             type: String,
           },
         quantity: {
           type: Number, 
           default :1,
-        }    
+        },  
+        freeShipping: {
+          type: Boolean,
+          default: false,
+        },
      },
     ],
     amount :{
-      type : Number ,
-      require : true,
+      totalAmount :{
+        type : Number ,
+        require : true,
+      },
+      shopDiscount:{
+        type : Number ,
+        require : true,
+      },
+      subtotal:{
+        type : Number,
+        require : true,
+      }
     },
+    
     address :{
       type : String ,
       required : true,  

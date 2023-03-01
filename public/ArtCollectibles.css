@@ -1,0 +1,175 @@
+body{
+  background-color:#ffc9c485 ;
+}
+
+
+#container{
+
+display: grid;
+  grid-template-columns: auto;
+  grid-template-rows:fit-content(1em); 
+  grid-auto-flow: row;
+  grid-gap: 10px;
+  width: 100%;
+  grid-template-areas: 
+    'h1 . . logoff'   
+    'message message . .';
+    
+    
+    
+
+}
+
+h1{
+
+  color: rgb(49, 114, 101);
+  grid-area: h1;
+  margin: 59px 44px 16px 58px;
+  
+}
+
+#logoff{
+
+  border-radius: 52px;
+  grid-area: logoff;
+  border: none;
+  color: rgb(78, 122, 111);
+  padding: 11px;
+  width: 30%;
+  margin: 44px -27px 30px 73px;
+  text-align: center;
+  text-decoration: none;
+ 
+}
+
+#logoff:hover {
+  background-color: #7b947c; /* Green */
+  color: white;
+}
+
+#ArtCollectibles-message{
+  color:rgb(42, 42, 90);
+  grid-area: message;
+  margin:136px 52px 40px 67px;
+ 
+  border-color:  rgb(166, 202, 211);
+
+}
+
+#ArtCollectibles {
+  
+  display: grid;
+   width: 100%;
+   height: 80vh;
+
+}
+
+#ArtCollectibles-table{
+ margin:-93px 30px 100px 20px;
+ table-layout: fixed;
+ clear: both;
+}
+
+
+#ArtCollectibles-table th{
+  padding: 20px;
+}
+ 
+#ArtCollectibles-table td{
+  padding: 20px;
+}
+
+button{
+  
+  border-radius: 52px;
+  grid-area: logoff;
+  border: none;
+  color: rgb(78, 122, 111);
+  padding: 10px;
+  text-align: center;
+  text-decoration: none;
+  
+
+}
+
+button:hover {
+  background-color: #7b947c; /* Green */
+  color: white;
+}
+
+#edit-form{
+
+  margin: 32px 30px 4px 521px;
+}
+
+#edit-form div{
+  padding: 20px;
+}
+
+#register-div{
+  margin: 15px 30px 4px 521px;
+  padding: 20px;
+}
+#register-div form div{
+  padding:20px;
+}
+#logon-div {
+ 
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 360px;
+  margin: 30px 388px 43px 437px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+#logon-div input {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+#logon-div label {
+  font-family: "Roboto", sans-serif;
+  outline: 0;
+  width: 100%;
+  border: 0;
+
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+#logon-div button {
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  outline: 0;
+  background-color: #80aca9;
+  background-image: linear-gradient(45deg,#a2c3c1,#4f5652);
+  width: 100%;
+  border: 0;
+  padding: 10px;
+  color: #FFFFFF;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 8px;
+}
+#logon-div .message {
+  margin: 15px 0 0;
+  color: #b3b3b3;
+  font-size: 12px;
+}
+
+#logon-register {
+  margin: 1px 20px 2px 340px;
+
+}
+
+#logon , #register{
+  margin: 68px -72px 40px 100px;
+}

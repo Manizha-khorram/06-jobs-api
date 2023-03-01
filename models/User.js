@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require ('bcryptjs')
 const jwt = require ('jsonwebtoken')
+const { boolean } = require('joi')
 
 const UserSchema = new mongoose.Schema ({
 
@@ -24,15 +25,16 @@ const UserSchema = new mongoose.Schema ({
         minlegnth :6,
         //maxlength : 12,
       },
-      // role: {
-      //   type: String,
-      //   enum: ['admin', 'artist' , 'user'],
-      //   default: 'user',
-      // },
-      isAdmin: {   
-        type :String ,
-        default : false ,
-      }
+      role: {
+        type: String,
+        enum: ['admin', 'artist' , 'user'],
+        default: 'user',
+      },
+      // isAdmin: {   
+      //   type :  Boolean,
+      //   default : false ,
+      // }
+     
 
 })
 
@@ -44,7 +46,7 @@ UserSchema.pre('save', async function(){
 }) 
 
 UserSchema.methods.createJWT = function () {
-  return jwt.sign({userId : this._id , name: this.name} , process.env.JWT_SECRET, {
+  return jwt.sign({userId : this._id , name: this.name,  role: this.role} , process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_LIFETIME ,
  
   })

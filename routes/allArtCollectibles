@@ -1,0 +1,10 @@
+
+const express = require('express')
+const router = express.Router()
+const {getAllArtCollectibles } = require('../controllers/allArtCollectibles')
+
+
+router.route('/').get(getAllArtCollectibles)
+
+
+module.exports = router ;
