@@ -20,17 +20,26 @@ const UserSchema = new mongoose.Schema ({
     },
     password : {
         type :String ,
-        required : [true , 'Pleas provide password'],
+        required : [true , 'Please provide password'],
         minlegnth :6,
         //maxlength : 12,
       },
+      // role: {
+      //   type: String,
+      //   enum: ['admin', 'artist' , 'user'],
+      //   default: 'user',
+      // },
+      isAdmin: {   
+        type :String ,
+        default : false ,
+      }
 
 })
 
 UserSchema.pre('save', async function(){
   
    const salt = await bcrypt.genSalt(10);
-   this.password = await bcrypt.hash(this.password , salt)  //this pointing to our document (UserSchema)
+   this.password = await bcrypt.hash(this.password , salt)  //this pointing to our document (UserSchema) //salt => number of bytes it should hash to!
    //why did he delete the next() ? we were suppos to pass it to next middleware? why it is working??
 }) 
 
