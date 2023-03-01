@@ -1,45 +1,63 @@
+
+
+* {
+  margin: 0;
+  font-family: Gabriola;
+}
+
+html{
+  min-height: 100%;
+}
 body{
   background-color:#ffc9c485 ;
 }
 
-
-#container{
-
-display: grid;
-  grid-template-columns: auto;
-  grid-template-rows:fit-content(1em); 
-  grid-auto-flow: row;
-  grid-gap: 10px;
-  width: 100%;
-  grid-template-areas: 
-    'h1 . . logoff'   
-    'message message . .';
-    
-    
-    
-
+header{
+  display:flex;
+   justify-content: center;
+  align-items: center; 
+  flex-direction: row;
+}
+.header-right{
+  flex-grow: 1;
+  align-items: center;
+  margin-top: 30px;
 }
 
 h1{
 
   color: rgb(49, 114, 101);
   grid-area: h1;
-  margin: 59px 44px 16px 58px;
+  margin: 59px 44px 16px 125px;
+  flex-grow: 4;
+  font-size: 3em;
+  
+}
+#Admin-table-title{
+  color: rgb(49, 114, 101);
+  margin: 59px 44px 16px 125px;
   
 }
 
 #logoff{
 
   border-radius: 52px;
-  grid-area: logoff;
   border: none;
   color: rgb(78, 122, 111);
   padding: 11px;
-  width: 30%;
-  margin: 44px -27px 30px 73px;
   text-align: center;
   text-decoration: none;
  
+}
+
+#logoff-cart{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#user-cart{
+  background-color: #e3757338;
+  margin-right: 20px;
 }
 
 #logoff:hover {
@@ -49,45 +67,91 @@ h1{
 
 #ArtCollectibles-message{
   color:rgb(42, 42, 90);
-  grid-area: message;
-  margin:136px 52px 40px 67px;
+  margin:80px 52px 40px 67px;
  
   border-color:  rgb(166, 202, 211);
 
 }
 
-#ArtCollectibles {
+#Admin-message p{
+  margin: 22px 12px 40px 449px;
+}
+
+#ArtCollectibles{
   
-  display: grid;
-   width: 100%;
-   height: 80vh;
+  display: flex;
+   width: 95%;
+   flex-wrap: wrap;
+   justify-content: center;
+   margin-top: 30px;
 
 }
 
-#ArtCollectibles-table{
- margin:-93px 30px 100px 20px;
+#ArtCollectibles-table{ 
+ margin:0px 30px 100px 180px;
  table-layout: fixed;
- clear: both;
+ display: flex;
+ flex-wrap: wrap;
+ flex-direction: column-reverse;
+ /* overflow: scroll; */
+ 
 }
 
 
-#ArtCollectibles-table th{
-  padding: 20px;
+#ArtCollectibles-table th , #Admin-table th , #Cart-table th{
+  padding: 5px;
+  font-size: 1.4em;
 }
  
-#ArtCollectibles-table td{
-  padding: 20px;
+#ArtCollectibles-table td, #Admin-table td , #Cart-table td{
+ padding: 15px;
+ text-align: center;
+ font-size: 1.2em;
 }
+#ArtCollectibles-table tr:nth-child(even) {
+  background-color:#ccfffc54;
+}
+
+#add-ArtCollectible{
+ margin: 4px 3px 66px 107px;
+}
+
+#swagger-link {
+
+  margin:20px 30px 40px 120px;
+}
+
+#exit{
+  margin:100px 30px 40px 120px;
+}
+
+#Admin-table, #Cart-table , #order{
+  margin:60px 30px 20px 165px;
+  table-layout: fixed;
+  clear: both;
+  /* overflow: scroll; */
+  font-size: 1em;
+  width: 70%;
+  
+}
+
+#Admin-div , #Cart{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  flex-direction: row;
+}
+
 
 button{
   
   border-radius: 52px;
-  grid-area: logoff;
   border: none;
   color: rgb(78, 122, 111);
   padding: 10px;
   text-align: center;
   text-decoration: none;
+  font-size: 1em;
   
 
 }
@@ -97,6 +161,11 @@ button:hover {
   color: white;
 }
 
+#order-Button{
+  width: 55%;
+  margin:0px 30px 20px 161px
+ 
+}
 #edit-form{
 
   margin: 32px 30px 4px 521px;
@@ -113,17 +182,17 @@ button:hover {
 #register-div form div{
   padding:20px;
 }
-#logon-div {
+#logon-div , #Admin-logon-div{
  
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 30px 388px 43px 437px;
+  margin: 0px 388px 43px 437px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
-#logon-div input {
+#logon-div input, #Admin-logon-div input {
   font-family: "Roboto", sans-serif;
   outline: 0;
   background: #f2f2f2;
@@ -131,21 +200,22 @@ button:hover {
   border: 0;
   margin: 0 0 15px;
   padding: 15px;
+  font-family: Gabriola;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 1em;
 }
 
-#logon-div label {
+#logon-div label, #Admin-logon-div label{
   font-family: "Roboto", sans-serif;
   outline: 0;
   width: 100%;
   border: 0;
-
+  font-family: Gabriola;
   padding: 15px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 1em;
 }
-#logon-div button {
+#logon-div button , #Admin-logon-div button {
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
   outline: 0;
@@ -155,21 +225,123 @@ button:hover {
   border: 0;
   padding: 10px;
   color: #FFFFFF;
-  font-size: 14px;
+  font-family: Gabriola;
+  font-size: 1em;
   cursor: pointer;
   margin: 8px;
 }
-#logon-div .message {
-  margin: 15px 0 0;
+#message {
+  
   color: #b3b3b3;
-  font-size: 12px;
+  font-size: 20px;
+  flex-grow: 2;
+  margin-top: 60px;
 }
 
-#logon-register {
-  margin: 1px 20px 2px 340px;
 
+
+#logon , #register , #Admin-button{
+  margin: 5px;
 }
 
-#logon , #register{
-  margin: 68px -72px 40px 100px;
+
+footer {
+  background-color: rgb(247 213 213);
+  width: 100vw;
+  padding-top: 40px;
+  padding-bottom: 40px;
+ display: flex;
+ justify-content: center;
+ flex-direction: row;
+ flex-wrap: wrap;
+ position:sticky;
+ margin-top: 40px;
+ 
+}
+
+footer p{
+  text-align: center;
+   flex-grow: 35;
+   align-items: center;
+} 
+
+#SocialMidia {
+  flex-grow: 1;
+  align-items: left;
+}
+#gmail, #github, #linkedin{
+  width: 20px;
+  height:20px;
+}
+
+#Admin-table th, #ArtCollectibles th, #Cart-table th{
+  background: linear-gradient(
+    to bottom,
+    rgb(247 211 211), #ecdddc5c );
+  
+  border:none;
+  background-color: transparent;
+}
+
+
+#Admin-table tr:nth-child(even), #Cart-table tr:nth-child(even) {
+  background-color:rgb(231, 221, 221);
+}
+
+
+@media only screen and (max-width : 768px) {
+  
+ 
+  header{
+    background: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; 
+  
+  }
+
+  h1{
+    margin: 30px 44px 16px 55px;
+  }
+
+ #ArtCollectibles-table{ 
+      margin:0px 30px 100px 20px;
+      table-layout: fixed;
+      overflow: scroll; 
+      width: 100%;
+      
+     }
+
+     #swagger-link{
+
+      margin:20px 30px 40px 180px;
+    }  
+   
+}
+
+@media only screen and (min-width : 768px) and (max-width : 1224px) {
+
+
+  header{
+    background: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; 
+  
+  }
+  h1{
+    margin: 30px 44px 16px 55px;
+  }
+
+ #ArtCollectibles-table{ 
+      margin:0px 30px 100px 20px;
+      table-layout: fixed;
+      overflow: scroll; 
+      width: 100%;
+      
+     }
+     #swagger-link{
+
+      margin:20px 30px 40px 180px;
+    } 
 }

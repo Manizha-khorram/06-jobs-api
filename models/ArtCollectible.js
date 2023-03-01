@@ -32,8 +32,9 @@ const ArtCollectibleSchema = new mongoose.Schema({
 
     } ,
     image: {
-        type: String,
-        default: '/uploads/example.jpeg',  // I want the user to uploud the image!
+        buffer: Buffer,
+        contentType: String,
+       // default: '../public/gmail.png',  // I want the user to uploud the image!
       },
     description: {
         type: String,

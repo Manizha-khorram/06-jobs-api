@@ -22,7 +22,7 @@ const OrderSchema = mongoose.Schema(
         },
      },
     ],
-    amount :{
+    amount :[{
       totalAmount :{
         type : Number ,
         require : true,
@@ -35,12 +35,12 @@ const OrderSchema = mongoose.Schema(
         type : Number,
         require : true,
       }
-    },
+    }],
     
-    address :{
-      type : String ,
-      required : true,  
-    },
+    // address :{
+    //   type : String ,
+    //   required : true,  
+    // },
     status :{
       type : String,
       default : "pending"

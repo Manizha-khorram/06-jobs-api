@@ -1,0 +1,402 @@
+openapi: 3.0.0
+info:
+  title: ArtCollectibles
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://art-collectibles.onrender.com/api/v1
+  variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+      - Auth
+      summary: Register User
+      operationId: RegisterUser
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RegisterUserRequest'
+              - example:
+                  name: Ahmad
+                  email: ahmad@gmail.com
+                  role: user
+                  password: secret
+            example:
+              name: Ahmad
+              email: ahmad@gmail.com
+              role: user
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/login:
+    post:
+      tags:
+      - Auth
+      summary: User login
+      operationId: Userlogin
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UserloginRequest'
+              - example:
+                  email: Marry@gmail.com
+                  password: secret
+            example:
+              email: Marry@gmail.com
+              password: secret
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /allArts:
+    get:
+      tags:
+      - Auth
+      summary: getAllArtCollectibles-AllUsers
+      operationId: getAllArtCollectibles-AllUsers
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security: []
+  /ArtCollectibles:
+    post:
+      tags:
+      - ArtCollectibles
+      summary: Create ArtCollectibles
+      operationId: CreateArtCollectibles
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateArtCollectiblesRequest'
+              - example:
+                  paintingType: Oil
+                  price: 100$
+                  title: waterfall
+                  description: This is a beautiful painting.
+            example:
+              paintingType: Oil
+              price: 100$
+              title: waterfall
+              description: This is a beautiful painting.
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    get:
+      tags:
+      - ArtCollectibles
+      summary: Get all Artcollections-Artist
+      operationId: GetallArtcollections-Artist
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /ArtCollectibles/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The ArtCollectible ID
+    get:
+      tags:
+      - ArtCollectibles
+      summary: Get single ArtCollectible
+      operationId: GetsingleArtCollectible
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    patch:
+      tags:
+      - ArtCollectibles
+      summary: Update Artcollectible
+      operationId: UpdateArtcollectible
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UpdateArtcollectibleRequest'
+              - example:
+                  price: 120$
+                  title: Ocean
+            example:
+              price: 120$
+              title: Ocean
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+ 
+    delete:
+      tags:
+      - ArtCollectibles
+      summary: delete Artcollectible
+      operationId: deleteArtcollectible
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /Admin/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The user ID
+    delete:
+      tags:
+      - Admin
+      summary: Delete UserByID
+      operationId: DeleteUserByID
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /admin/users:
+    get:
+      tags:
+      - Admin
+      summary: Get AllUsers
+      operationId: GetAllUsers
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /carts:
+    get:
+      tags:
+      - Customer
+      summary: Get Cart
+      operationId: GetCart
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+    post:
+      tags:
+      - Customer
+      summary: Create Cart
+      operationId: CreateCart
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreateCartRequest'
+              - example:
+                  artCollectibleId: 63c88fc41841882bb80528bc
+                  quantity: '1'
+            example:
+              artCollectibleId: 63c88fc41841882bb80528bc
+              quantity: '1'
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /orders:
+    post:
+      tags:
+      - Customer
+      summary: create order
+      operationId: createorder
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+  /Carts/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The ArtCollectible ID
+    delete:
+      tags:
+      - Customer
+      summary: Delete Cart Item
+      operationId: DeleteCartItem
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+      security:
+      - bearer: []
+components:
+  schemas:
+    RegisterUserRequest:
+      title: RegisterUserRequest
+      required:
+      - name
+      - email
+      - role
+      - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+        password:
+          type: string
+      example:
+        name: Ahmad
+        email: ahmad@gmail.com
+        role: user
+        password: secret
+    UserloginRequest:
+      title: UserloginRequest
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: Marry@gmail.com
+        password: secret
+    CreateArtCollectiblesRequest:
+      title: CreateArtCollectiblesRequest
+      required:
+      - paintingType
+      - price
+      - title
+      - description
+      type: object
+      properties:
+        paintingType:
+          type: string
+        price:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+      example:
+        paintingType: Oil
+        price: 100$
+        title: waterfall
+        description: This is a beautiful painting.
+    UpdateArtcollectibleRequest:
+      title: UpdateArtcollectibleRequest
+      required:
+      - price
+      - title
+      type: object
+      properties:
+        price:
+          type: string
+        title:
+          type: string
+      example:
+        price: 120$
+        title: Ocean
+    CreateCartRequest:
+      title: CreateCartRequest
+      required:
+      - artCollectibleId
+      - quantity
+      type: object
+      properties:
+        artCollectibleId:
+          type: string
+        quantity:
+          type: string
+      example:
+        artCollectibleId: 63c88fc41841882bb80528bc
+        quantity: '1'
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+- name: Misc
+  description: ''
+- name: Auth
+  description: ''
+- name: ArtCollectibles
+  description: ''
+- name: Admin
+  description: ''
+- name: Customer
+  description: ''
