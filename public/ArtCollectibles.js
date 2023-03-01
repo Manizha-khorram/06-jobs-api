@@ -360,6 +360,7 @@ document.addEventListener("DOMContentLoaded", () => {
       addArtCollectible.style.display = "none";
       swaggerButton.style.display = "block";
       Cart.style.display = "none";
+      exitButton.style.display = "none"
      
 
   });
