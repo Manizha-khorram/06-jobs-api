@@ -638,6 +638,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (e.target === addArtCollectible) {
     //  console.log('line 366')
         showing.style.display = "none";
+        editImage.style.display="none"
         editArtCollectible.style.display = "block";
         showing = editArtCollectible;
         delete editArtCollectible.dataset.id; 
@@ -775,6 +776,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showing.style.display = "none";   
             showing = editArtCollectible;
             showing.style.display = "block";
+            
            // editImage.style.display ="block"
             addingArtCollectible.textContent = "update";
             message.textContent = "";
