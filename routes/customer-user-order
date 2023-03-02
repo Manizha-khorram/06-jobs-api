@@ -3,7 +3,7 @@ const express = require ('express');
 const router = express.Router();
 const {createOrder, getOrder } = require ('../controllers/customer-user-order')
 
-//router.route('/').get(getOrder)
+router.route('/').get(getOrder)
 router.route('/').post(createOrder)
 //router.route('/:id').delete(deleteOrder)
 

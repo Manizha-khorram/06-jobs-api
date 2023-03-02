@@ -103,17 +103,20 @@ h1{
   flex-direction: row;
 }
 
+
 #ArtCollectibles-table th , #Admin-table th , #Cart-table th {
   padding: 5px;
   font-size: 1.4em;
 }
  
+
 #order-table th, #amount-table th, #Cart-table th{
   width: 47%;
 }
 
 
 #ArtCollectibles-table td, #Admin-table td , #Cart-table td, #order-table td, #amount-table td {
+
  padding: 15px;
  text-align: center;
  font-size: 1.2em;
@@ -135,7 +138,9 @@ h1{
   margin:100px 30px 40px 120px;
 }
 
+
 #Admin-table, #Cart-table , #order-table, #amount-table{
+
   margin:60px 30px 20px 165px;
   table-layout: fixed;
   clear: both;
@@ -176,6 +181,7 @@ button:hover {
   margin:0px 30px 20px 165px;
   border-radius: 10px;
   background-color: #e7dddd;
+
  
 }
 #edit-form{
@@ -286,7 +292,9 @@ footer p{
   height:20px;
 }
 
+
 #Admin-table th, #ArtCollectibles th, #Cart-table th, #order-table th, #amount-table th{
+
   background: linear-gradient(
     to bottom,
     rgb(247 211 211), #ecdddc5c );
@@ -296,7 +304,9 @@ footer p{
 }
 
 
+
 #Admin-table tr:nth-child(even), #Cart-table tr:nth-child(even), #order-table tr:nth-child(even), #amount-table tr:nth-child(even) {
+
   background-color:rgb(231, 221, 221);
 }
 
