@@ -74,4 +74,4 @@ const createOrder = async (req , res ) =>{
 
 
 
-module.exports = {createOrder, getOrder}
+module.exports = {createOrder}
