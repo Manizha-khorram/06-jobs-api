@@ -199,7 +199,9 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
             for (let i = 0; i < data.length; i++) {
               let deleteButton = `<td><button type="button" class="deleteButtonCart" data-id=${data.cart.artCollectibles[i]._id}>delete</button></td>`;
               let inputField = `<td><input type="text" class="inputField" artCollectibleId="${data.cart.artCollectibles[i].artCollectibleId}" id="input${data.cart.artCollectibles[i]._id}" name="inputField"></td>`;
+
               let quantityButton = `<td><button type="button" increment=${inputField.value} class="quantityButtonCart" data-id=${data.cart.artCollectibles[i]._id}>quantity</button></td>`;
+
               console.log("input", deleteButton)
               let rowHTML = `<td>${data.cart.artCollectibles[i].title}</td><td>${data.cart.artCollectibles[i].price}</td><td>${data.cart.artCollectibles[i].artist}</td><td>${data.cart.artCollectibles[i].quantity}</td></td>${inputField}${quantityButton}${deleteButton}`;
               let rowEntry = document.createElement("tr");
@@ -221,6 +223,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
       }
 
 //this funtion is to build the order table for user, I have the logic at the backend but I will work on this later
+
       async function buildOrderTable(orderTable, orderTableHeader ,amountTable, amountTableHeader, token , message) {
      
         try {
@@ -277,6 +280,7 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
           return 0;
         }
         }
+
 document.addEventListener("DOMContentLoaded", () => {
     const logoff = document.getElementById("logoff");
     const message = document.getElementById("message");
@@ -339,8 +343,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const orderTable = document.getElementById("order-table");
     const orderTableHeader = document.getElementById("order-table-header");
     const checkoutButton = document.getElementById("checkout");
+
     const amountTable = document.getElementById("amount-table");
     const amountTableHeader = document.getElementById("amount-table-header");
+
    
   
    
@@ -376,6 +382,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Cart.style.display = "none";
       orderDiv.style.display ="none";
       exitButton.style.display ="none"
+
      
 
   });
@@ -423,6 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
       orderButton.style.display ="none"
       Cart.style.display = "none";
       orderDiv.style.display ="none";
+
     } 
      if (localStorage.role === admin){
       logoff.style.display = "block";
@@ -448,6 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
       orderButton.style.display ="none"
       Cart.style.display = "none";
       orderDiv.style.display ="none";
+
     }
 
 
@@ -478,6 +487,7 @@ document.addEventListener("DOMContentLoaded", () => {
       orderButton.style.display ="none"
       orderDiv.style.display ="none";
       Cart.style.display= "none";
+
 
     }
   
@@ -917,7 +927,6 @@ document.addEventListener("DOMContentLoaded", () => {
       
 
        const count = await buildCartTable(CartTable, CartTableHeader , token , message)
-
       
        if (count > 0) {
         ArtCollectiblesMessage.textContent = "";
@@ -1003,6 +1012,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }),
         });
 
+
        // const data = await response.json();
           if (response.status === 200) {
         
@@ -1043,6 +1053,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
   //this part is ralated to order, which I will work on it later!
+
       else if(e.target === orderButton ){
   
         const count = await buildOrderTable(orderTable, orderTableHeader ,amountTable, amountTableHeader, token , message)
@@ -1074,6 +1085,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     
+
   
   })
   }); 
