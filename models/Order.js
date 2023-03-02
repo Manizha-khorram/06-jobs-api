@@ -12,13 +12,15 @@ const OrderSchema = mongoose.Schema(
         artCollectibleId :{
             type: String,
           },
+        title:{
+          type: String
+          },
         quantity: {
           type: Number, 
           default :1,
         },  
         freeShipping: {
-          type: Boolean,
-          default: false,
+          type: String,
         },
      },
     ],
@@ -31,16 +33,16 @@ const OrderSchema = mongoose.Schema(
         type : Number ,
         require : true,
       },
-      subtotal:{
+      cost:{
         type : Number,
         require : true,
       }
     }],
     
-    address :{
-      type : String ,
-      required : true,  
-    },
+    // address :{
+    //   type : String ,
+    //   required : true,  
+    // },
     status :{
       type : String,
       default : "pending"

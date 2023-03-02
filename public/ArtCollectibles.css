@@ -45,10 +45,19 @@ h1{
   border: none;
   color: rgb(78, 122, 111);
   padding: 11px;
-  width: 45%;
   text-align: center;
   text-decoration: none;
  
+}
+
+#logoff-cart{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#user-cart{
+  background-color: #e3757338;
+  margin-right: 20px;
 }
 
 #logoff:hover {
@@ -68,7 +77,7 @@ h1{
   margin: 22px 12px 40px 449px;
 }
 
-#ArtCollectibles {
+#ArtCollectibles{
   
   display: flex;
    width: 95%;
@@ -81,18 +90,30 @@ h1{
 #ArtCollectibles-table{ 
  margin:0px 30px 100px 180px;
  table-layout: fixed;
- clear: both;
+ display: flex;
+ flex-wrap: wrap;
+ flex-direction: column-reverse;
  /* overflow: scroll; */
  
 }
 
+#order-Div{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
 
-#ArtCollectibles-table th , #Admin-table th{
+#ArtCollectibles-table th , #Admin-table th , #Cart-table th {
   padding: 5px;
   font-size: 1.4em;
 }
  
-#ArtCollectibles-table td, #Admin-table td{
+#order-table th, #amount-table th, #Cart-table th{
+  width: 47%;
+}
+
+
+#ArtCollectibles-table td, #Admin-table td , #Cart-table td, #order-table td, #amount-table td {
  padding: 15px;
  text-align: center;
  font-size: 1.2em;
@@ -105,22 +126,26 @@ h1{
  margin: 4px 3px 66px 107px;
 }
 
-#swagger-link{
+#swagger-link {
 
-  margin:20px 30px 40px 60px;
+  margin:20px 30px 40px 120px;
 }
 
-#Admin-table{
-  margin:60px 30px 100px 165px;
+#exit{
+  margin:100px 30px 40px 120px;
+}
+
+#Admin-table, #Cart-table , #order-table, #amount-table{
+  margin:60px 30px 20px 165px;
   table-layout: fixed;
   clear: both;
-  overflow: scroll;
+  /* overflow: scroll; */
   font-size: 1em;
   width: 70%;
   
 }
 
-#Admin-div{
+#Admin-div , #Cart{
   display: flex;
   justify-content: center;
   align-items: center; 
@@ -146,6 +171,13 @@ button:hover {
   color: white;
 }
 
+#order-Button{
+  width: 70%;
+  margin:0px 30px 20px 165px;
+  border-radius: 10px;
+  background-color: #e7dddd;
+ 
+}
 #edit-form{
 
   margin: 32px 30px 4px 521px;
@@ -254,19 +286,74 @@ footer p{
   height:20px;
 }
 
-#Admin-table th, #ArtCollectibles th{
+#Admin-table th, #ArtCollectibles th, #Cart-table th, #order-table th, #amount-table th{
   background: linear-gradient(
     to bottom,
     rgb(247 211 211), #ecdddc5c );
   
   border:none;
-  background-color: #c1ede385;
   background-color: transparent;
 }
 
 
-#Admin-table tr:nth-child(even) {
+#Admin-table tr:nth-child(even), #Cart-table tr:nth-child(even), #order-table tr:nth-child(even), #amount-table tr:nth-child(even) {
   background-color:rgb(231, 221, 221);
 }
 
 
+@media only screen and (max-width : 768px) {
+  
+ 
+  header{
+    background: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; 
+  
+  }
+
+  h1{
+    margin: 30px 44px 16px 55px;
+  }
+
+ #ArtCollectibles-table{ 
+      margin:0px 30px 100px 20px;
+      table-layout: fixed;
+      overflow: scroll; 
+      width: 100%;
+      
+     }
+
+     #swagger-link{
+
+      margin:20px 30px 40px 180px;
+    }  
+   
+}
+
+@media only screen and (min-width : 768px) and (max-width : 1224px) {
+
+
+  header{
+    background: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; 
+  
+  }
+  h1{
+    margin: 30px 44px 16px 55px;
+  }
+
+ #ArtCollectibles-table{ 
+      margin:0px 30px 100px 20px;
+      table-layout: fixed;
+      overflow: scroll; 
+      width: 100%;
+      
+     }
+     #swagger-link{
+
+      margin:20px 30px 40px 180px;
+    } 
+}

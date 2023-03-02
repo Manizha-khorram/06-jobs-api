@@ -17,7 +17,12 @@
     <h1 id="ArtCollectible-table-title" class="header-left">ArtCollectibles</h1>
     <p id="message"></p>
     <div class="header-right">
-    <button type="button" id="logoff" style="display:none;">logoff</button>
+     <div id="logoff-cart">
+        <button type="button" id="user-cart" style="display:none;">Cart</button>
+        <button type="button" id="logoff" style="display:none;">logoff</button>
+      
+     </div>   
+    
     
     <div id="logon-register" style="display:none;">
         <button type="button" id="logon">logon</button>
@@ -46,7 +51,7 @@
                 <input type="password" id="Admin-password">
             </div>
             <button type="button" id="Admin-logon-button">Admin logon</button>
-            <button type="button" id="logon-cancel">cancel</button>
+            <button type="button" id="Admin-logon-cancel">cancel</button>
         </form>
     </div>
     <div id="Admin-div" style="display:none;">
@@ -113,7 +118,7 @@
         <p id="ArtCollectibles-message"></p>
         <table id="ArtCollectibles-table" style="display:none;">
             <tr id="ArtCollectibles-table-header">
-                <th>image</th>
+                <th>Image</th>
                 <th>Artist</th>
                 <th>Title</th>
                 <th>Painting type</th>
@@ -172,35 +177,52 @@
         </form>
     </div>
   
-    <button id="swagger-link" onclick="location.href = '/api-docs'">Documentation</button>
+    <button id="swagger-link" onclick="location.href = '/api-docs'"  display="none">Documentation</button>
       
-  
-
-    <!-- <div id="Cart">
+    <div id="Cart">
 
             <p id="Cart-message"></p>
             <table id="Cart-table" style="display:none;">
                 <tr id="Cart-table-header">
-                    <th>Owner</th>
-                    <th>title</th>
-                    <th>price</th>
+                    <th>Title</th>
+                    <th>Price</th>
                     <th>Artist</th>
-                    <th>quantity</th>
+                    <th>Quantity</th>
+                    <th colspan="2"></th>
                     <th colspan="2"></th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><input  type="number" min="0" max="100"></td>
-                </tr>
-            </table>
-            <button type="button" onclick="" id="exit">Exit</button>
-        </div>
-         
 
-    </div> -->
+            </table>
+           
+                <button type="button" id="order-Button" display="none">Process Order</button>
+        </div>
+      
+        
+    <div id="order-Div" display="none">
+    
+    <p id="order-message"></p>
+    <table id="order-table" style="display:none;">
+        <tr id="order-table-header">
+            <th>Iitle</th>
+            <th>Quantity</th>
+            <th>Free Shipping</th>
+            
+        </tr>
+    </table>
+   
+    <table id="amount-table" style="display:none;">
+        <tr id="amount-table-header">
+            <th>Total amount</th>
+            <th>Shop discount</th>
+            <th>Cost</th>
+        </tr>
+
+    </table>
+    </div> 
+    <button type="button" id="exit">Exit</button>
+<!--    
+        <button type="button" id="checkout">Checkout</button> -->
+</div>
 
     </div>
      <footer>

@@ -7,27 +7,19 @@ const Cart = require("../models/Cart")
 const Order = require("../models/Order")
 
 
-//Get order
-
-
-
-
-
 
 //Create order
 const createOrder = async (req , res ) =>{
 
     const {role} = req.user
     const owner = req.user.userId
-    const address = req.body.address
+   // const address = req.body.address
     const artCollectibles = Cart.artCollectibles
   
     const cart = await Cart.findOne({ owner})
 
     const cartArtc = cart.artCollectibles ;
     
-
-    console.log(cartArtc)
 
      //change the string to number 
     const Nprice = cartArtc.map((product) => { return parseFloat(product.price) * (product.quantity)
@@ -45,14 +37,12 @@ const createOrder = async (req , res ) =>{
         return total + arr   
     }, 0)
     
-    console.log("total",totalAmount)
 
     const shopDiscount = totalAmount * 10 /100;
-    const subtotal =  totalAmount - shopDiscount;
+    const cost =  totalAmount - shopDiscount;
     
-    const amount = [{totalAmount , shopDiscount , subtotal}]
+    const amount = [{totalAmount , shopDiscount , cost}]
     
-    console.log(amount);
     if(!cart){
         throw new NotFoundError(`Cart doesn't exist.`)
        
@@ -61,9 +51,8 @@ const createOrder = async (req , res ) =>{
     else {
          
         const order = await Order.create({
-            owner,
+            
             artCollectibles: cart.artCollectibles,
-            address,
             amount
         })
             
