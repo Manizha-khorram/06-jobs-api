@@ -7,23 +7,6 @@ const Cart = require("../models/Cart")
 const Order = require("../models/Order")
 
 
-//Get order
-
-const getOrder = async (req, res) =>{
-
-    const owner = req.user.userId;
-    console.log(owner)
-    const order = await Order.findOne({ owner });
-      if (order && order.artCollectibles.length > 0) {
-        res.status(200).json({order , length: order.artCollectibles.length});
-      } else {
-        res.status(200).json({msg :'No order'})
-      }
-   
-};
-
-
-
 
 //Create order
 const createOrder = async (req , res ) =>{
@@ -56,9 +39,9 @@ const createOrder = async (req , res ) =>{
     
 
     const shopDiscount = totalAmount * 10 /100;
-    const subtotal =  totalAmount - shopDiscount;
+    const cost =  totalAmount - shopDiscount;
     
-    const amount = [{totalAmount , shopDiscount , subtotal}]
+    const amount = [{totalAmount , shopDiscount , cost}]
     
     if(!cart){
         throw new NotFoundError(`Cart doesn't exist.`)
@@ -91,4 +74,4 @@ const createOrder = async (req , res ) =>{
 
 
 
-module.exports = {createOrder, getOrder}
+module.exports = {createOrder}

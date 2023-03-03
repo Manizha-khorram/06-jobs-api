@@ -199,7 +199,9 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
             for (let i = 0; i < data.length; i++) {
               let deleteButton = `<td><button type="button" class="deleteButtonCart" data-id=${data.cart.artCollectibles[i]._id}>delete</button></td>`;
               let inputField = `<td><input type="text" class="inputField" artCollectibleId="${data.cart.artCollectibles[i].artCollectibleId}" id="input${data.cart.artCollectibles[i]._id}" name="inputField"></td>`;
-              let quantityButton = `<td><button type="button" increment=${inputField.value} class="quantityButtonCart" data-id=${data.cart.artCollectibles[i]._id}>add quantity</button></td>`;
+
+              let quantityButton = `<td><button type="button" increment=${inputField.value} class="quantityButtonCart" data-id=${data.cart.artCollectibles[i]._id}>quantity</button></td>`;
+
               console.log("input", deleteButton)
               let rowHTML = `<td>${data.cart.artCollectibles[i].title}</td><td>${data.cart.artCollectibles[i].price}</td><td>${data.cart.artCollectibles[i].artist}</td><td>${data.cart.artCollectibles[i].quantity}</td></td>${inputField}${quantityButton}${deleteButton}`;
               let rowEntry = document.createElement("tr");
@@ -221,50 +223,64 @@ async function buildArtCollectiblesTable(ArtCollectiblesTable, ArtCollectiblesTa
       }
 
 //this funtion is to build the order table for user, I have the logic at the backend but I will work on this later
-      // async function buildOrderTable(orderTable, orderTableHeader , token , message) {
+
+      async function buildOrderTable(orderTable, orderTableHeader ,amountTable, amountTableHeader, token , message) {
      
-      //   try {
-      //     console.log("token", token)
-      //     const response = await fetch(`/api/v1/orders`, {
-      //       method: "POST",
+        try {
+          console.log("token", token)
+          const response = await fetch(`/api/v1/orders`, {
+            method: "POST",
             
-      //         headers: {
-      //           "Content-Type": "application/json",
-      //           Authorization: `Bearer ${token}`,
-      //         },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
             
-      //     });
+          });
         
           
-      //  let data = await response.json();
+       let data = await response.json();
       
-      //  console.log('here you are',data)
-      //     var children = [orderTableHeader];
-      //     console.log('childs',children)
-      //     if (response.status === 200) {
-      //       if (data.count === 0) {
-      //         orderTable.replaceChildren(...children); // clear this for safety
-      //         return 0;
-      //       } else {
-      //         for (let i = 0; i < data.length; i++) {
-      //           let rowHTML = `<td>${data.artCollectibles[i].quantity}</td><td>${data.artCollectibles[i].freeShipping}</td>`;
-      //           let rowEntry = document.createElement("tr");
-      //           rowEntry.innerHTML = rowHTML; 
-      //           children.push(rowEntry);
-      //         }
-      //         orderTable.replaceChildren(...children);
-      //       }
-      //       return data.length;
-      //     } else {
-      //       message.textContent = data.msg;
-      //       return 0;
-      //     }
-      //   } catch (err) {
-      //     console.log(err)
-      //     message.textContent = "A communication error occurred.";
-      //     return 0;
-      //   }
-      //   }
+       console.log('here you are',data)
+          var children = [orderTableHeader];
+          var children1 = [amountTableHeader]
+          //console.log('childs',children)
+          if (response.status === 201) {
+            if (data.artCollectibles.length === 0) {
+              orderTable.replaceChildren(...children); // clear this for safety
+              amountTable.replaceChildren(...children1);
+              return 0;
+            } else {
+              for (let i = 0; i < data.artCollectibles.length; i++) {
+                console.log("first table",data.artCollectibles.length)
+                let rowHTML = `<td>${data.artCollectibles[i].title}</td><td>${data.artCollectibles[i].quantity}</td><td>${data.artCollectibles[i].freeShipping}</td>`;
+                let rowEntry = document.createElement("tr");
+                rowEntry.innerHTML = rowHTML; 
+                children.push(rowEntry);
+              }
+             
+              for (let i = 0; i < data.amount.length; i++) {
+                console.log("second table",data.amount.length)
+                let rowHTML =  `<td>${data.amount[0].totalAmount}</td><td>${data.amount[0].shopDiscount}</td><td>${data.amount[0].cost}</td>`;
+                let rowEntry = document.createElement("tr");
+                rowEntry.innerHTML = rowHTML; 
+                children1.push(rowEntry);
+              }
+              orderTable.replaceChildren(...children);
+              amountTable.replaceChildren(...children1);
+            }
+            return data.artCollectibles.length && data.amount.length;
+          } else {
+            message.textContent = data.msg;
+            return 0;
+          }
+        } catch (err) {
+          console.log(err)
+          message.textContent = "A communication error occurred.";
+          return 0;
+        }
+        }
+
 document.addEventListener("DOMContentLoaded", () => {
     const logoff = document.getElementById("logoff");
     const message = document.getElementById("message");
@@ -327,6 +343,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const orderTable = document.getElementById("order-table");
     const orderTableHeader = document.getElementById("order-table-header");
     const checkoutButton = document.getElementById("checkout");
+
+    const amountTable = document.getElementById("amount-table");
+    const amountTableHeader = document.getElementById("amount-table-header");
+
    
   
    
@@ -360,7 +380,9 @@ document.addEventListener("DOMContentLoaded", () => {
       addArtCollectible.style.display = "none";
       swaggerButton.style.display = "block";
       Cart.style.display = "none";
-      exitButton.style.display = "none"
+      orderDiv.style.display ="none";
+      exitButton.style.display ="none"
+
      
 
   });
@@ -407,7 +429,8 @@ document.addEventListener("DOMContentLoaded", () => {
       exitButton.style.display="none"
       orderButton.style.display ="none"
       Cart.style.display = "none";
-      //ArtCollectibles.style.display= "10px 30px 100px 20px";
+      orderDiv.style.display ="none";
+
     } 
      if (localStorage.role === admin){
       logoff.style.display = "block";
@@ -432,6 +455,8 @@ document.addEventListener("DOMContentLoaded", () => {
       exitButton.style.display="none"
       orderButton.style.display ="none"
       Cart.style.display = "none";
+      orderDiv.style.display ="none";
+
     }
 
 
@@ -460,6 +485,9 @@ document.addEventListener("DOMContentLoaded", () => {
       logonRegister.style.display = "none";
       exitButton.style.display="none"
       orderButton.style.display ="none"
+      orderDiv.style.display ="none";
+      Cart.style.display= "none";
+
 
     }
   
@@ -520,7 +548,7 @@ document.addEventListener("DOMContentLoaded", () => {
       registerDiv.style.display = "block";
       showing = registerDiv;
       Cart.style.display = "none";
-    } else if (e.target === logonCancel || e.target == registerCancel) {
+    } else if (e.target === logonCancel || e.target == registerCancel || e.target == AdminlogonCancel) {
       showing.style.display = "none";
       Adminlogon.style.display= "none";
       adminMessage.style.display="none"
@@ -620,6 +648,7 @@ document.addEventListener("DOMContentLoaded", () => {
     else if (e.target === addArtCollectible) {
     //  console.log('line 366')
         showing.style.display = "none";
+        editImage.style.display="none"
         editArtCollectible.style.display = "block";
         showing = editArtCollectible;
         delete editArtCollectible.dataset.id; 
@@ -757,6 +786,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showing.style.display = "none";   
             showing = editArtCollectible;
             showing.style.display = "block";
+            
            // editImage.style.display ="block"
             addingArtCollectible.textContent = "update";
             message.textContent = "";
@@ -897,7 +927,6 @@ document.addEventListener("DOMContentLoaded", () => {
       
 
        const count = await buildCartTable(CartTable, CartTableHeader , token , message)
-
       
        if (count > 0) {
         ArtCollectiblesMessage.textContent = "";
@@ -941,8 +970,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.status === 200) {
     
         message.textContent = "item deleted!";
-        Cart.style.display= "none"
-        CartTable.style.display= "none"
         thisEvent = new Event("startDisplay");
         document.dispatchEvent(thisEvent);
       } 
@@ -985,6 +1012,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }),
         });
 
+
        // const data = await response.json();
           if (response.status === 200) {
         
@@ -1025,33 +1053,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
   //this part is ralated to order, which I will work on it later!
-    //   else if(e.target === orderButton ){
+
+      else if(e.target === orderButton ){
   
-    //     const count = await buildOrderTable(orderTable, orderTableHeader , token , message)
+        const count = await buildOrderTable(orderTable, orderTableHeader ,amountTable, amountTableHeader, token , message)
   
-    //     console.log("count", count)
-    //     if (count > 0) {
-    //      ArtCollectiblesMessage.textContent = "";
-    //      orderTable.style.display = "block";
-    //    } else {
-    //      ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
-    //     CartTable.style.display = "none";
+        console.log("count", count)
+        if (count > 0) {
+         ArtCollectiblesMessage.textContent = "";
+         orderTable.style.display = "block";
+         amountTable.style.display = "block"
+       } else {
+         ArtCollectiblesMessage.textContent = "There are no ArtCollectibles to display for this user.";
+        CartTable.style.display = "none";
          
-    //    }
-    //   orderTable.style.display = "block";
-    //   orderDiv.style.display = "block";
-    //   logonRegister.style.display ="none"
-    //   ArtCollectiblesTable.style.display= "none"
-    //   swaggerButton.style.display = "none"
-    //    showing = orderDiv; 
-    //    CartTable.style.display ="block"
-    //    addArtCollectible.style.display = "none";
-    //    swaggerButton.style.display = "none";
-    //    exitButton.style.display="block"
-    //    orderButton.style.display ="block"
+       }
+      orderTable.style.display = "block";
+      amountTable.style.display = "block"
+      orderDiv.style.display = "block";
+      logonRegister.style.display ="none"
+      ArtCollectiblesTable.style.display= "none"
+      swaggerButton.style.display = "none"
+       showing = orderDiv; 
+       CartTable.style.display ="block"
+       addArtCollectible.style.display = "none";
+       swaggerButton.style.display = "none";
+       exitButton.style.display="block"
+       orderButton.style.display ="block"
   
-  
-    // }
+      
+    }
+
+    
+
   
   })
   }); 

@@ -51,7 +51,7 @@
                 <input type="password" id="Admin-password">
             </div>
             <button type="button" id="Admin-logon-button">Admin logon</button>
-            <button type="button" id="logon-cancel">cancel</button>
+            <button type="button" id="Admin-logon-cancel">cancel</button>
         </form>
     </div>
     <div id="Admin-div" style="display:none;">
@@ -118,7 +118,7 @@
         <p id="ArtCollectibles-message"></p>
         <table id="ArtCollectibles-table" style="display:none;">
             <tr id="ArtCollectibles-table-header">
-                <th>image</th>
+                <th>Image</th>
                 <th>Artist</th>
                 <th>Title</th>
                 <th>Painting type</th>
@@ -185,10 +185,11 @@
             <p id="Cart-message"></p>
             <table id="Cart-table" style="display:none;">
                 <tr id="Cart-table-header">
-                    <th>title</th>
-                    <th>price</th>
+                    <th>Title</th>
+                    <th>Price</th>
                     <th>Artist</th>
-                    <th>quantity</th>
+                    <th>Quantity</th>
+                    <th colspan="2"></th>
                     <th colspan="2"></th>
                     <th colspan="2"></th>
                 </tr>
@@ -198,25 +199,33 @@
                 <button type="button" id="order-Button" display="none">Process Order</button>
         </div>
       
-        <button type="button" id="exit">Exit</button>
-    <!-- <div id="order-Div"></div>
+        
+    <div id="order-Div" display="none">
     
     <p id="order-message"></p>
     <table id="order-table" style="display:none;">
         <tr id="order-table-header">
-            <th>quantity</th>
-            <th>free Shipping</th>
-            <th>total amount</th>
-            <th>shop discount</th>
-            <th>subtotal</th>
-            <th colspan="2"></th>
-            <th colspan="2"></th>
+            <th>Iitle</th>
+            <th>Quantity</th>
+            <th>Free Shipping</th>
+            
+        </tr>
+    </table>
+   
+    <table id="amount-table" style="display:none;">
+        <tr id="amount-table-header">
+            <th>Total amount</th>
+            <th>Shop discount</th>
+            <th>Cost</th>
         </tr>
 
     </table>
-   
-        <button type="button" id="checkout">Checkout</button>
-    </div> -->
+    </div> 
+    <button type="button" id="exit">Exit</button>
+<!--    
+        <button type="button" id="checkout">Checkout</button> -->
+</div>
+
 
 
     </div>

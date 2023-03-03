@@ -41,7 +41,8 @@ const createCart = async (req , res ) =>{
    const artist = artCollectible.artist
    const title = artCollectible.title;
    const price = artCollectible.price
-
+   const freeShipping = artCollectible.freeShipping
+   //console.log("freeShipping",freeShipping)
     //if cart exist
     if (cart){
         
@@ -58,7 +59,7 @@ const createCart = async (req , res ) =>{
         //res.status(200).json({cart})
     } else {
         //here we push the artCollectible to cart
-        cart.artCollectibles.push({artCollectibleId, quantity , title , price , artist})
+        cart.artCollectibles.push({artCollectibleId, quantity , title , price , artist, freeShipping})
         console.log(" our cart here :",cart.artCollectibles)
     }
     if (role !== "user"){
@@ -72,6 +73,7 @@ const createCart = async (req , res ) =>{
         artCollectibles : [{artCollectibleId, quantity }],
         price,
         artist,
+        freeShipping
         
     })
 

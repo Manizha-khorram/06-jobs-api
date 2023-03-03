@@ -22,7 +22,10 @@ const CartSchema = mongoose.Schema(
          min: 1,
          default: 1},
          price: String,
-         artist : String
+         artist : String,
+         freeShipping: {
+          type: String,
+        },
        }],
       
       }, {
